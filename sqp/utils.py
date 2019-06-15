@@ -27,3 +27,20 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+def qqplot(x,y=None,**kwargs):
+    dist = kwargs['dist']
+    del kwargs['dist']
+    _, xr = probplot(x, fit=False)
+    _, yr = probplot(dist(*dist.fit(x)).rvs(size=len(x)), fit=False)
+    plt.scatter(xr, yr, **kwargs)
+    plt.plot(yr,yr, color=mycolor)
+
+def ppplot(x,y=None,**kwargs):
+    dist = kwargs['dist']
+    del kwargs['dist']
+    _, xr = probplot(x, fit=False)
+    _, yr = probplot(dist(*dist.fit(x)).rvs(size=len(x)), fit=False)
+    plt.scatter(xr, yr, **kwargs)
+    plt.plot(yr,yr, color=mycolor)

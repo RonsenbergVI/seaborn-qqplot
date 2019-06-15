@@ -27,3 +27,24 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+from sqp import qqplot, ppplot
+
+def qqnorm(x, data = None, fit_reg = False,  palette = None, ax = None):
+    pass
+
+def qq(x, y = None, dist = None, data = None, hue = None, height = None, aspect = None, fit_reg = False, palette = None, ax = None):
+    """
+    """
+    g = FacetGrid(data, height = height, aspect = aspect)
+    g.map(qqplot, x, y, dist = dist, col = hue, color = mycolor, fit_reg = fit_reg)
+
+def pp(x, y = None, dist = None, data = None, hue = None, height = None, aspect = None, fit_reg = False, palette = None, ax = None):
+    """
+    """
+    if not palette is None:
+        mycolor = (palette[2][0],palette[2][1],palette[2][2])
+    else:
+        mycolor = None
+    g = FacetGrid(data, height = height, aspect = aspect)
+    g.map(ppplot, x, y, dist = dist, col = hue, color = mycolor, fit_reg = fit_reg)
