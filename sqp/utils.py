@@ -30,25 +30,35 @@
 
 import matplotlib.pyplot as plt
 
-from scipy.stats import probplot
+from scipy.stats import probplot, linregress
 
 
-def probability_plot(x, y, **kwargs):
+def qqplot(x, y, **kwargs):
     """
     """
 
+    print(kwargs)
     display_kws = kwargs["display_kws"]
     plot_kws = kwargs["plot_kws"]
 
+
     identity = False
+    fit_reg = False
 
     if display_kws is not None:
         if 'identity' in kwargs["display_kws"].keys():
             identity = display_kws['identity']
 
+        if 'fit_reg' in kwargs["display_kws"].keys():
+            fit_reg = display_kws['fit_reg']
+
     _, xr = probplot(x, fit=False)
     _, yr = probplot(y, fit=False)
 
-    plt.scatter(xr, yr, **plot_kws)
+    if fit_reg:
+        slope, intercept, *_ = linregress(xr,yr)
+        plt.plot(xr, intercept + slope * xr, color=kwargs['color'])
+
+    plt.scatter(xr, yr, color=kwargs['color'])
     if identity:
-        plt.plot(yr,yr)
+        plt.plot(yr,yr, color='black')

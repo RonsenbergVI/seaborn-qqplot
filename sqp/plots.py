@@ -34,8 +34,8 @@ from seaborn import PairGrid
 
 from scipy.stats import rv_continuous
 
-def qq(data, x=None, y=None, hue=None, hue_order=None, palette=None, kind="quantile",
-       height=2.5, aspect=1, dropna=True, display_kws=None, plot_kws=None):
+def qq(data, x=None, y=None, hue = None, hue_order=None, palette = None, kind="quantile",
+       height = 2.5, aspect = 1, dropna=True, display_kws=None, plot_kws=None):
     """
     """
     if not isinstance(data, pd.DataFrame):
@@ -45,8 +45,6 @@ def qq(data, x=None, y=None, hue=None, hue_order=None, palette=None, kind="quant
 
     if x is None or y is None:
         raise TypeError()
-
-    vars = None
 
     x_vars = [x]
 
@@ -67,7 +65,7 @@ def qq(data, x=None, y=None, hue=None, hue_order=None, palette=None, kind="quant
 
     kws = {"plot_kws":plot_kws, "display_kws":display_kws}
 
-    grid = PairGrid(data_, vars=vars, x_vars=x_vars, y_vars=y_vars, height=height, aspect=aspect, hue=hue, palette=palette)
+    grid = PairGrid(data_, x_vars=x_vars, y_vars=y_vars, height=height, aspect=aspect, hue=hue, palette=palette)
 
     if kind == "quantile":
         f = qqplot
