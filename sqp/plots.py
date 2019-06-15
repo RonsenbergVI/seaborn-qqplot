@@ -28,31 +28,59 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-from sqp import qqplot, ppplot
+from sqp import probability_plot
 
-def qqnorm(x, data = None, hue = None, height = None, axlabel = None,
-             label = None, aspect = None, fit_reg = False, palette = None, ax = None):
-    pass
-    return ax
+from seaborn import PairGrid
 
-def qq(x, y = None, dist = None, data = None, hue = None, height = None, axlabel = None,
-             label = None, aspect = None, fit_reg = False, palette = None, ax = None):
+from scipy.stats import rv_continuous
+
+def qq(data, x=None, y=None, hue=None, hue_order=None, palette=None, kind="quantile",
+       height=2.5, aspect=1, dropna=True, display_kws=None, plot_kws=None):
     """
     """
+    if not isinstance(data, pd.DataFrame):
+        raise TypeError(
+            "'data' must be pandas DataFrame object, not: {typefound}".format(
+                typefound=type(data)))
 
-    # fit the liner regression line
-    if fit_reg is None:
-        fit_reg = dict()
+    if x is None or y is None:
+        raise TypeError()
 
-    g = FacetGrid(data, height = height, aspect = aspect)
-    g.map(qqplot, x, y, dist = dist, col = hue, palette = palette, fit_reg = fit_reg)
-    return ax
+    vars = None
 
+    x_vars = [x]
 
-def pp(x, y = None, dist = None, data = None, hue = None, height = None, axlabel=None,
-             label=None, aspect = None, fit_reg = False, palette = None, ax = None):
-    """
-    """
-    g = FacetGrid(data, height = height, aspect = aspect)
-    g.map(ppplot, x, y, dist = dist, col = hue, palette = palette, fit_reg = fit_reg)
-    return ax
+    data_ = data.copy()
+
+    if isinstance(y, rv_continuous):
+        y_ = y(*y.fit(data_[x])).rvs(len(data_[x]))
+        name = "{}_dist".format(y.name)
+        data_[name] = pd.Series(y_, index=data_.index)
+        y_vars=[name]
+    else:
+        y_vars = [y]
+
+    if plot_kws is None:
+        plot_kws = {}
+    if display_kws is None:
+        display_kws = {}
+
+    kws = {"plot_kws":plot_kws, "display_kws":display_kws}
+
+    grid = PairGrid(data_, vars=vars, x_vars=x_vars, y_vars=y_vars, height=height, aspect=aspect, hue=hue, palette=palette)
+
+    if kind == "quantile":
+        f = qqplot
+    elif kind == "probability":
+        f = ppplot
+    else:
+        msg = "kind must be either 'quantile' or 'probability'"
+        raise ValueError(msg)
+
+    grid.map(qqplot, **kws)
+
+    # Add a legend
+    if hue is not None:
+        grid.add_legend()
+
+    return grid

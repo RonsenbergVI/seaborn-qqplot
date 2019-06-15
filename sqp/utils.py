@@ -28,25 +28,27 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+import matplotlib.pyplot as plt
 
-def qqplot(x, y = None, **kwargs):
-    """
-    """
-    if 'dist' in kwargs.keys():
-        dist = kwargs['dist']
-        del kwargs['dist']
-    _, xr = probplot(x, fit=False)
-    _, yr = probplot(dist(*dist.fit(x)).rvs(size=len(x)), fit=False)
-    plt.scatter(xr, yr, **kwargs)
-    plt.plot(yr,yr, color=mycolor)
+from scipy.stats import probplot
 
-def ppplot(x,y=None,**kwargs):
+
+def probability_plot(x, y, **kwargs):
     """
     """
-    if 'dist' in kwargs.keys():
-        dist = kwargs['dist']
-        del kwargs['dist']
+
+    display_kws = kwargs["display_kws"]
+    plot_kws = kwargs["plot_kws"]
+
+    identity = False
+
+    if display_kws is not None:
+        if 'identity' in kwargs["display_kws"].keys():
+            identity = display_kws['identity']
+
     _, xr = probplot(x, fit=False)
-    _, yr = probplot(dist(*dist.fit(x)).rvs(size=len(x)), fit=False)
-    plt.scatter(xr, yr, **kwargs)
-    plt.plot(yr,yr, color=mycolor)
+    _, yr = probplot(y, fit=False)
+
+    plt.scatter(xr, yr, **plot_kws)
+    if identity:
+        plt.plot(yr,yr)
