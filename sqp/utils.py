@@ -29,17 +29,23 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-def qqplot(x,y=None,**kwargs):
-    dist = kwargs['dist']
-    del kwargs['dist']
+def qqplot(x, y = None, **kwargs):
+    """
+    """
+    if 'dist' in kwargs.keys():
+        dist = kwargs['dist']
+        del kwargs['dist']
     _, xr = probplot(x, fit=False)
     _, yr = probplot(dist(*dist.fit(x)).rvs(size=len(x)), fit=False)
     plt.scatter(xr, yr, **kwargs)
     plt.plot(yr,yr, color=mycolor)
 
 def ppplot(x,y=None,**kwargs):
-    dist = kwargs['dist']
-    del kwargs['dist']
+    """
+    """
+    if 'dist' in kwargs.keys():
+        dist = kwargs['dist']
+        del kwargs['dist']
     _, xr = probplot(x, fit=False)
     _, yr = probplot(dist(*dist.fit(x)).rvs(size=len(x)), fit=False)
     plt.scatter(xr, yr, **kwargs)

@@ -30,21 +30,29 @@
 
 from sqp import qqplot, ppplot
 
-def qqnorm(x, data = None, fit_reg = False,  palette = None, ax = None):
+def qqnorm(x, data = None, hue = None, height = None, axlabel = None,
+             label = None, aspect = None, fit_reg = False, palette = None, ax = None):
     pass
+    return ax
 
-def qq(x, y = None, dist = None, data = None, hue = None, height = None, aspect = None, fit_reg = False, palette = None, ax = None):
+def qq(x, y = None, dist = None, data = None, hue = None, height = None, axlabel = None,
+             label = None, aspect = None, fit_reg = False, palette = None, ax = None):
+    """
+    """
+
+    # fit the liner regression line
+    if fit_reg is None:
+        fit_reg = dict()
+
+    g = FacetGrid(data, height = height, aspect = aspect)
+    g.map(qqplot, x, y, dist = dist, col = hue, palette = palette, fit_reg = fit_reg)
+    return ax
+
+
+def pp(x, y = None, dist = None, data = None, hue = None, height = None, axlabel=None,
+             label=None, aspect = None, fit_reg = False, palette = None, ax = None):
     """
     """
     g = FacetGrid(data, height = height, aspect = aspect)
-    g.map(qqplot, x, y, dist = dist, col = hue, color = mycolor, fit_reg = fit_reg)
-
-def pp(x, y = None, dist = None, data = None, hue = None, height = None, aspect = None, fit_reg = False, palette = None, ax = None):
-    """
-    """
-    if not palette is None:
-        mycolor = (palette[2][0],palette[2][1],palette[2][2])
-    else:
-        mycolor = None
-    g = FacetGrid(data, height = height, aspect = aspect)
-    g.map(ppplot, x, y, dist = dist, col = hue, color = mycolor, fit_reg = fit_reg)
+    g.map(ppplot, x, y, dist = dist, col = hue, palette = palette, fit_reg = fit_reg)
+    return ax
