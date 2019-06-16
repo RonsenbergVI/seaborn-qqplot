@@ -46,6 +46,8 @@ can be done as follows:
 
    simple qqplot
 
+
+
 The sizes can be changed with the height and aspect parameters. The height can be fixed directly
 and the aspect will set the width in relation to the height:
 
@@ -55,6 +57,9 @@ and the aspect will set the width in relation to the height:
    :align:   center
 
    simple qqplot - size altered
+
+
+
 
 While performing exploratory data analysis (seaborn had become quite popular to perform such
 taks), it is very informative to display the change in the underlying distribution of a variable
@@ -67,6 +72,8 @@ for a given label:
 
    qqplot with hue
 
+
+
 seaborn qqplot also allows to compare a variable to a known probability distribution. The extension
 only supports `scipy.rv_continuous` random variable models:
 
@@ -78,6 +85,8 @@ only supports `scipy.rv_continuous` random variable models:
 
      gamma qqplot for the sepal_length variable
 
+
+
 A qqplot with 2 samples from the same distribution will display points close to the x=y line
 thus it is possible to add the identity line as a graphical diagnostic:
 
@@ -88,6 +97,9 @@ thus it is possible to add the identity line as a graphical diagnostic:
 
      gamma qqplot for the sepal_length variable with identity line
 
+
+
+
 Another graphical aid is to add regression lines for the qqplot points:
 
 >>> qqplot(iris, x="sepal_length", y="petal_length", hue = "species", height = 5, aspect = 1.6, display_kws={"identity":False,"fit":True})
@@ -96,6 +108,9 @@ Another graphical aid is to add regression lines for the qqplot points:
    :align:   center
 
    gamma qqplot for the sepal_length variable with regression lines
+
+
+
 
 Finally, confidence intervals can be added for the linear regressions, we can precise the degree of
 confidence of the interval with the parameter `ci` a number in the interval [0,1] and the confidence
