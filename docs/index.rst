@@ -78,6 +78,15 @@ only supports `scipy.rv_continuous` random variable models:
 
      gamma qqplot for the sepal_length variable
 
+A qqplot with 2 samples from the same distribution will display points close to the x=y line
+thus it is possible to add the identity line as a graphical diagnostic:
+
+  >>> qqplot(iris, x="sepal_length", y=gamma, hue = "species", height = 4, aspect = 1.5, display_kws={"identity":True})
+
+  .. figure::  images/fig5.png
+     :align:   center
+
+     gamma qqplot for the sepal_length variable with identity line
 
 Seaborn-qqplot Changelog
 =========================
