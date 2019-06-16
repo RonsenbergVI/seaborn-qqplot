@@ -64,7 +64,7 @@ It means that the source code provided in the binaries can be used, modified,
 or distributed freely for commercial or personal use with conditions only
 requiring preservation of copyright and license notices.
 
-The full license text can be found below (:ref:`trendpy-license`).
+The full license text can be found below (:ref:`seaborn-qqplot-license`).
 
 Authors
 -------
@@ -88,6 +88,8 @@ documentation.
 -   The ":ref:`seaborn-qqplot-license`" applies to all the source code shipped as
     part of seaborn-qqplot (seaborn-qqplot itself as well as the examples and the unittests)
     as well as documentation.
+
+:seaborn-qqplot-license
 
 seaborn-qqplot License
 ----------------------
