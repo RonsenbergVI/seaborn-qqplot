@@ -62,10 +62,22 @@ for a given label:
 
   >>> qqplot(iris, x="sepal_length", y="petal_length", hue = "species", height = 4, aspect = 1.5)
 
-.. figure::  images/fig2.png
+.. figure::  images/fig3.png
    :align:   center
 
    qqplot with hue
+
+seaborn qqplot also allows to compare a variable to a known probability distribution. The extension
+only supports `scipy.rv_continuous` random variable models:
+
+  >>> from scipy.stats import gamma
+  >>> qqplot(iris, x="sepal_length", y=gamma, hue = "species", height = 4, aspect = 1.5)
+
+  .. figure::  images/fig4.png
+     :align:   center
+
+     gamma qqplot for the sepal_length variable
+
 
 Seaborn-qqplot Changelog
 =========================
