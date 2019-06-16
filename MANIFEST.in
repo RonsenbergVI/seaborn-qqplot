@@ -1,0 +1,4 @@
+include plots.py
+include utils.py
+include versions.py
+include requirements.txt
