@@ -101,13 +101,13 @@ def qqplot(data, x=None, y=None, hue = None, hue_order=None, palette = None, kin
 
     if kind == "quantile":
         f = qqplot
-    elif kind == "probability":
-        f = ppplot
+    #elif kind == "probability":
+    #    f = ppplot
     else:
         msg = "kind must be 'quantile'" # need to add pp-plot functionality ('probability kind')
         raise ValueError(msg)
 
-    grid.map(qqplot, **kws)
+    grid.map(probability_plot, **kws)
 
     # Add a legend
     if hue is not None:
