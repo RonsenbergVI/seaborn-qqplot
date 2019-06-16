@@ -12,7 +12,7 @@ The documentation can be found [here](http://seaborn-qqplot.readthedocs.io/en/la
 
 ## Contributing
 
-Contribution will be welcomed once a first stable release is ready. [Contact Me](mailto@corneille.r.j@gmail.com)
+Contribution will be welcomed once a first stable release is ready.
 
 
 ## Quickstart

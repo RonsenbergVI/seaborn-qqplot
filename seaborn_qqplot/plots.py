@@ -32,14 +32,44 @@ from seaborn import PairGrid
 
 from scipy.stats import rv_continuous, t
 
-from sqp import probability_plot
+from seaborn_qqplot import probability_plot
+
+from pandas import DataFrame
 
 def qqplot(data, x=None, y=None, hue = None, hue_order=None, palette = None, kind="quantile",
             height = 2.5, aspect = 1, dropna=True, display_kws=None, plot_kws=None):
+    """Draw a quantile-quantile plot of one variable against a probability distribution or
+    two variables.
+
+    Parameters
+    ----------
+    data : DataFrame
+        pandas DataFrame.
+    x : string, optional
+        name of variables in ``data``.
+    y : string or `scipy.rv_continuous` instance, optional
+        name of variables in ``data`` or a probability distribution
+    kind : { "quantile" | "probability"}, optional
+        Kind of plot to draw. probability plots are not yet available
+    height : numeric, optional
+        Size of the figure (it will be square).
+    aspect : numeric, optional
+        Ratio of joint axes height to marginal axes height.
+    dropna : bool, optional
+        If True, remove observations that are missing from ``x`` and ``y``.
+    {dispay, plot}_kws : dicts, optional
+        Additional keyword arguments for the plot components.
+    kwargs : key, value pairings
+        Additional keyword arguments are passed to the function used to
+        draw the plot on the joint Axes.
+
+    Returns
+    -------
+    grid : :class:`PairGrid`
+        :class:`PairGrid` object with the plot on it.
     """
-    """
-    # only support pandas DataFrame fot data
-    if not isinstance(data, pd.DataFrame):
+    # only support pandas DataFrame for data
+    if not isinstance(data, DataFrame):
         raise TypeError(
             "'data' must be pandas DataFrame object, not: {typefound}".format(
                 typefound=type(data)))
