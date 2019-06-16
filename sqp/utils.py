@@ -32,12 +32,6 @@ import matplotlib.pyplot as plt
 
 from scipy.stats import probplot, linregress
 
-
-import matplotlib.pyplot as plt
-
-from scipy.stats import probplot, linregress
-
-
 def qqplot(x, y, **kwargs):
     """
     """
