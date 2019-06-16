@@ -32,10 +32,9 @@ import matplotlib.pyplot as plt
 
 from scipy.stats import probplot, linregress
 
-def qqplot(x, y, **kwargs):
+def probability_plot(x, y, **kwargs):
     """
     """
-
     display_kws = kwargs["display_kws"]
     plot_kws = kwargs["plot_kws"]
 
@@ -61,21 +60,12 @@ def qqplot(x, y, **kwargs):
         slope, intercept, *_ = linregress(xr,yr)
         plt.plot(xr, intercept + slope * xr, color=kwargs['color'])
 
-        def equation(a, b):
-            """Return a 1D polynomial."""
-            return np.polyval(a, b)
-
         p = 1 - ci/2
-
         y_model = intercept + slope * xr
-
         N = xr.size
-
         df = N - 2
-
-        q_t = t.ppf(p, df)
-
-        s_err = np.sqrt(np.sum((y - y_model)**2)/df)
+        q_t     = t.ppf(p, df)
+        s_err   = np.sqrt(np.sum((y - y_model)**2)/df)
 
         x2 = np.linspace(np.min(xr), np.max(xr), 100)
 

@@ -28,6 +28,23 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-from sqp.version import version
+import os
+import sys
+import inspect
+import unittest
 
-__version__ = version
+current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parent_dir = os.path.dirname(os.path.dirname(current_dir))
+sys.path.insert(0,parent_dir)
+
+import trendpy.tests.tests_factory
+import trendpy.tests.tests_globals
+import trendpy.tests.tests_mcmc
+
+suite = unittest.TestSuite()
+
+suite.addTest(unittest.makeSuite(trendpy.tests.tests_factory.TestFactory))
+suite.addTest(unittest.makeSuite(trendpy.tests.tests_globals.TestGlobals))
+suite.addTest(unittest.makeSuite(trendpy.tests.tests_mcmc.TestMCMC))
+
+unittest.TextTestRunner(verbosity=2).run(suite)
