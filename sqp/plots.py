@@ -34,8 +34,10 @@ from seaborn import PairGrid
 
 from scipy.stats import rv_continuous
 
+from scipy.stats import rv_continuous, t
+
 def qq(data, x=None, y=None, hue = None, hue_order=None, palette = None, kind="quantile",
-       height = 2.5, aspect = 1, dropna=True, display_kws=None, plot_kws=None):
+            height = 2.5, aspect = 1, dropna=True, display_kws=None, plot_kws=None):
     """
     """
     if not isinstance(data, pd.DataFrame):
