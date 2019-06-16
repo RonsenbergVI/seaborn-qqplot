@@ -44,7 +44,7 @@ can be done as follows:
 .. figure::  images/fig1.png
    :align:   center
 
-   Simple qqplot
+   simple qqplot
 
 The sizes can be changed with the height and aspect parameters. The height can be fixed directly
 and the aspect will set the width in relation to the height:
@@ -54,7 +54,18 @@ and the aspect will set the width in relation to the height:
 .. figure::  images/fig2.png
    :align:   center
 
-   Simple qqplot - size altered
+   simple qqplot - size altered
+
+While performing exploratory data analysis (seaborn had become quite popular to perform such
+taks), it is very informative to display the change in the underlying distribution of a variable
+for a given label:
+
+  >>> qqplot(iris, x="sepal_length", y="petal_length", hue = "species", height = 4, aspect = 1.5)
+
+.. figure::  images/fig2.png
+   :align:   center
+
+   qqplot with hue
 
 Seaborn-qqplot Changelog
 =========================
