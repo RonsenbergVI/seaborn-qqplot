@@ -37,8 +37,6 @@ import numpy as np
 def probability_plot(x, y, **kwargs):
     """
     """
-    """
-    """
     display_kws = kwargs["display_kws"]
     plot_kws = kwargs["plot_kws"]
 
@@ -71,7 +69,7 @@ def probability_plot(x, y, **kwargs):
         plt.plot(xr, intercept + slope * xr, color=kwargs['color'], **plot_kws)
 
         if reg:
-            # confidence interval
+            # confidence intervals
             p = 1 - ci/2
             y_model = intercept + slope * xr
             N = xr.size

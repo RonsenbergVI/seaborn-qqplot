@@ -34,7 +34,7 @@ from scipy.stats import rv_continuous, t
 
 from sqp import probability_plot
 
-def qq(data, x=None, y=None, hue = None, hue_order=None, palette = None, kind="quantile",
+def qqplot(data, x=None, y=None, hue = None, hue_order=None, palette = None, kind="quantile",
             height = 2.5, aspect = 1, dropna=True, display_kws=None, plot_kws=None):
     """
     """
@@ -74,7 +74,7 @@ def qq(data, x=None, y=None, hue = None, hue_order=None, palette = None, kind="q
     elif kind == "probability":
         f = ppplot
     else:
-        msg = "kind must be 'quantile'" # need to add probability plot functionality
+        msg = "kind must be 'quantile'" # need to add pp-plot functionality ('probability kind')
         raise ValueError(msg)
 
     grid.map(qqplot, **kws)
