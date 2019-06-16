@@ -88,6 +88,27 @@ thus it is possible to add the identity line as a graphical diagnostic:
 
      gamma qqplot for the sepal_length variable with identity line
 
+Another graphical aid is to add regression lines for the qqplot points:
+
+>>> qqplot(iris, x="sepal_length", y="petal_length", hue = "species", height = 5, aspect = 1.6, display_kws={"identity":False,"fit":True})
+
+.. figure::  images/fig6.png
+   :align:   center
+
+   gamma qqplot for the sepal_length variable with regression lines
+
+Finally, confidence intervals can be added for the linear regressions, we can precise the degree of
+confidence of the interval with the parameter `ci` a number in the interval [0,1] and the confidence
+intervals with degree of confidence 1 - ci/2 will be displayed:
+
+>>> qqplot(iris, x="sepal_length", y=gamma, hue = "species", height = 4, aspect = 1.5, display_kws={"identity":False,"fit":True,"reg":True,"ci":0.025})
+
+.. figure::  images/fig7.png
+   :align:   center
+
+   gamma qqplot for the sepal_length variable with regression lines
+
+
 Seaborn-qqplot Changelog
 =========================
 
