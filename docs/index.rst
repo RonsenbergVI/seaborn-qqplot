@@ -1,20 +1,27 @@
-.. seaborn-qqplot documentation master file, created by
-   sphinx-quickstart on Sun Jun 16 15:09:45 2019.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+==============
+seaborn-qqplot
+==============
 
-Welcome to seaborn-qqplot's documentation!
-==========================================
+.. module:: seaborn-qqplot
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+**seaborn-qqplot** is a seaborn extension adding qqplots.
 
 
+User's Guide
+============
 
-Indices and tables
-==================
+Requirements
+------------
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+trendpy is build on top of the following libraries:
+
+* `SciPy` (http://www.scipy.org)
+* `Seaborn` (http://pandas.pydata.org/)
+
+
+Issues
+------
+
+Should you encounter any issue with the library you can raise them here: https://github.com/ronsenbergVI/trendpypy/issues
+
+.. include:: ../INSTALL.rst
