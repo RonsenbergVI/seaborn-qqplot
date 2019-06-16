@@ -103,7 +103,7 @@ def setup_package():
           author = 'Rene-Jean Corneille',
           author_email = 'rene_jean.corneille@edu.escpeurope.eu',
           license = 'MIT',
-          keywords = ['quantile', 'qq-plot', 'plot', 'e', 'filter', 'trading', 'stocks', 'equities', 'forex'],
+          keywords = ['quantile', 'qq-plot', 'plot'],
           url = 'https://github.com/RonsenbergVI/seaborn-qqplot',
           zip_safe = False,
           include_package_data = True,
