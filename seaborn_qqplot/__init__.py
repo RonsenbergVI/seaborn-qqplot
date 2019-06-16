@@ -31,3 +31,5 @@
 from seaborn_qqplot.version import version
 
 __version__ = version
+
+__all__ = ["qqplot", "probability_plot"]
