@@ -3,7 +3,7 @@
 seaborn extension that adds qqplots and ppplots.
 
 [![Documentation Status](https://readthedocs.org/projects/seaborn-qqplot/badge/?version=latest)](https://seaborn-qqplot.readthedocs.io/en/latest/?badge=latest)
-   
+
 
 
 ## Documentation
@@ -17,11 +17,24 @@ Contribution will be welcomed once a first stable release is ready. [Contact Me]
 
 ## Quickstart
 
-The extension wants to be as similar as seaborn as possible so that 
+The extension wants to be as similar as seaborn as possible.
 
 ```python
-import seaborn-qqplot as sqp
+import seaborn_qqplot as sqp
 ```
+
+The example provided with the package is the Iris dataset:
+
+```python
+import seaborn as sns
+
+iris_data = sns.load_dataset('iris')
+```
+
+### 1. Simple qq-plot
+
+A qq-plot can be easily displayed using the `sqp.qqplot` method:
+
 
 
 
