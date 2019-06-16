@@ -1,2 +1,8 @@
-#macos file system
+# macos file system
+
 .DS_Store
+
+
+# build files
+
+*.egg-info

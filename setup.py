@@ -97,18 +97,18 @@ def setup_package():
 
     write_version_py()
 
-    setup(name = 'trendpy',
+    setup(name = 'seaborn-qqplot',
           version = str(_version),
           description = 'Trend Filtering Python Micro Framework',
           author = 'Rene-Jean Corneille',
           author_email = 'rene_jean.corneille@edu.escpeurope.eu',
           license = 'MIT',
           keywords = ['quantile', 'qq-plot', 'plot', 'e', 'filter', 'trading', 'stocks', 'equities', 'forex'],
-          url = 'https://github.com/RonsenbergVI/trendpy',
+          url = 'https://github.com/RonsenbergVI/seaborn-qqplot',
           zip_safe = False,
           include_package_data = True,
           platforms = 'any',
-		  packages=['trendpy'],
+		  packages=['seaborn-qqplot'],
           install_requires = ['scipy',
                               'pandas',
                               'seaborn',
