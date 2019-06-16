@@ -108,7 +108,7 @@ def setup_package():
           zip_safe = False,
           include_package_data = True,
           platforms = 'any',
-		  packages=['seaborn-qqplot'],
+		  packages=['seaborn_qqplot'],
           install_requires = ['scipy',
                               'pandas',
                               'seaborn',
