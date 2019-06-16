@@ -35,7 +35,16 @@ from scipy.stats import probplot, linregress
 import numpy as np
 
 def probability_plot(x, y, **kwargs):
-    """
+    """ Draw a probability plot of data contained in x against data in y.
+
+    Parameters
+    ----------
+    x : array_like
+        Data
+    y : array_like
+        Data
+    kwargs : key, value pairings
+        Additional keyword arguments are passed to the function.
     """
     display_kws = kwargs["display_kws"]
     plot_kws = kwargs["plot_kws"]

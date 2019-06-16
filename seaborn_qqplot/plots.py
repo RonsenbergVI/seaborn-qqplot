@@ -34,7 +34,7 @@ from scipy.stats import rv_continuous, t
 
 from seaborn_qqplot import probability_plot
 
-from pandas import DataFrame
+from pandas import DataFrame, Series
 
 def qqplot(data, x=None, y=None, hue = None, hue_order=None, palette = None, kind="quantile",
             height = 2.5, aspect = 1, dropna=True, display_kws=None, plot_kws=None):
@@ -44,11 +44,19 @@ def qqplot(data, x=None, y=None, hue = None, hue_order=None, palette = None, kin
     Parameters
     ----------
     data : DataFrame
-        pandas DataFrame.
+        Tidy (long-form) dataframe where each column is a variable and
+        each row is an observation.
     x : string, optional
         name of variables in ``data``.
     y : string or `scipy.rv_continuous` instance, optional
         name of variables in ``data`` or a probability distribution
+    hue : string (variable name), optional
+        Variable in ``data`` to map plot aspects to different colors.
+    hue_order : list of strings
+        Order for the levels of the hue variable in the palette
+    palette : dict or seaborn color palette
+        Set of colors for mapping the ``hue`` variable. If a dict, keys
+        should be values  in the ``hue`` variable.
     kind : { "quantile" | "probability"}, optional
         Kind of plot to draw. probability plots are not yet available
     height : numeric, optional
@@ -85,7 +93,7 @@ def qqplot(data, x=None, y=None, hue = None, hue_order=None, palette = None, kin
     if isinstance(y, rv_continuous):
         y_ = y(*y.fit(data_[x])).rvs(len(data_[x]))
         name = "{}_dist".format(y.name)
-        data_[name] = pd.Series(y_, index=data_.index)
+        data_[name] = Series(y_, index=data_.index)
         y_vars=[name]
     else:
         y_vars = [y]

@@ -31,15 +31,6 @@ import seaborn as sns
 iris_data = sns.load_dataset('iris')
 ```
 
-### 1. Simple qq-plot
-
-A qq-plot can be easily displayed using the `sqp.qqplot` method:
-
-
-
-
-
-
 ## Future Development
 
 I hope to add very soon probability-probability plots (pp-plots).

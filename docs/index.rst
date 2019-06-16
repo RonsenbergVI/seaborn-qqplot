@@ -33,7 +33,19 @@ Should you encounter any issue with the library you can raise them here: https:/
 Quickstart
 ==========
 
+A simple qq-plot comparing the iris dataset petal length and sepal length distributions
+can be done as follows:
 
+  >>> import seaborn_qqplot as sqp
+  >>> import seaborn as sns
+  >>> iris = sns.load_dataset('iris')
+  >>> qqplot(iris, x="petal_length", y="sepal_length")
+
+.. _is_sweaty:
+.. figure::  images/fig1.jpg
+   :align:   center
+
+   Simple qqplot
 
 
 Seaborn-qqplot Changelog
