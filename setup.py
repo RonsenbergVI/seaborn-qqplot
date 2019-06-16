@@ -99,7 +99,7 @@ def setup_package():
 
     setup(name = 'seaborn-qqplot',
           version = str(_version),
-          description = 'Trend Filtering Python Micro Framework',
+          description = 'qqplots for seaborn',
           author = 'Rene-Jean Corneille',
           author_email = 'rene_jean.corneille@edu.escpeurope.eu',
           license = 'MIT',
