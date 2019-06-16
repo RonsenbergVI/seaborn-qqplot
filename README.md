@@ -2,6 +2,9 @@
 
 seaborn extension that adds qqplots and ppplots.
 
+[![Documentation Status](https://readthedocs.org/projects/seaborn-qqplot/badge/?version=latest)](https://seaborn-qqplot.readthedocs.io/en/latest/?badge=latest)
+   
+
 
 ## Documentation
 
