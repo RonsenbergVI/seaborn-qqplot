@@ -41,12 +41,20 @@ can be done as follows:
   >>> iris = sns.load_dataset('iris')
   >>> qqplot(iris, x="petal_length", y="sepal_length")
 
-.. _is_sweaty:
 .. figure::  images/fig1.png
    :align:   center
 
    Simple qqplot
 
+The sizes can be changed with the height and aspect parameters. The height can be fixed directly
+and the aspect will set the width in relation to the height:
+
+  >>> qqplot(iris, x="sepal_length", y="petal_length", height = 4, aspect = 1.5)
+
+.. figure::  images/fig2.png
+   :align:   center
+
+   Simple qqplot - size altered
 
 Seaborn-qqplot Changelog
 =========================
@@ -89,7 +97,7 @@ documentation.
     part of seaborn-qqplot (seaborn-qqplot itself as well as the examples and the unittests)
     as well as documentation.
 
-:seaborn-qqplot-license
+.. seaborn-qqplot-license:
 
 seaborn-qqplot License
 ----------------------
