@@ -6,3 +6,5 @@
 # build files
 
 *.egg-info
+
+dist/
