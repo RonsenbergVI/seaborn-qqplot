@@ -22,6 +22,6 @@ trendpy is build on top of the following libraries:
 Issues
 ------
 
-Should you encounter any issue with the library you can raise them here: https://github.com/ronsenbergVI/trendpypy/issues
+Should you encounter any issue with the library you can raise them here: https://github.com/ronsenbergVI/seaborn-qqplot/issues
 
 .. include:: ../INSTALL.rst
