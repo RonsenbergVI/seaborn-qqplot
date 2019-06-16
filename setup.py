@@ -117,16 +117,18 @@ def setup_package():
             'Development Status :: 3 - Alpha',
             'Environment :: Web Environment',
             'Intended Audience :: Science/Research',
-            'License :: OSI Approved :: BSD 3-Clause License',
-            'Operating System :: OS Independent',
+            'License :: OSI Approved :: BSD License',
             'Programming Language :: Python',
             'Programming Language :: Python :: 3',
             'Programming Language :: Python :: 3.3',
             'Programming Language :: Python :: 3.4',
             'Programming Language :: Python :: 3.5',
             'Programming Language :: Python :: 3.6',
-            'Topic :: Scientific/Engineering :: Mathematics',
-            'Topic :: Software Development :: Libraries :: Python Modules'
+            'Topic :: Scientific/Engineering :: Visualization',
+            'Topic :: Multimedia :: Graphics',
+            'Operating System :: POSIX',
+            'Operating System :: Unix',
+            'Operating System :: MacOS'
         ])
 
 if __name__ == "__main__":
