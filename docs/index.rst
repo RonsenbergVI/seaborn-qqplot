@@ -15,6 +15,7 @@ Requirements
 
 trendpy is build on top of the following libraries:
 
+* `Numpy` (https://www.numpy.org/)
 * `SciPy` (http://www.scipy.org/)
 * `Seaborn` (http://seaborn.pydata.org/)
 

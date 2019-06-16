@@ -28,25 +28,25 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-from sqp import probability_plot
-
 from seaborn import PairGrid
 
-from scipy.stats import rv_continuous
-
 from scipy.stats import rv_continuous, t
+
+from sqp import probability_plot
 
 def qq(data, x=None, y=None, hue = None, hue_order=None, palette = None, kind="quantile",
             height = 2.5, aspect = 1, dropna=True, display_kws=None, plot_kws=None):
     """
     """
+    # only support pandas DataFrame fot data
     if not isinstance(data, pd.DataFrame):
         raise TypeError(
             "'data' must be pandas DataFrame object, not: {typefound}".format(
                 typefound=type(data)))
 
+    # x and y cannot be null values
     if x is None or y is None:
-        raise TypeError()
+        raise TypeError("x and y cannot be of Nonetype")
 
     x_vars = [x]
 
@@ -74,7 +74,7 @@ def qq(data, x=None, y=None, hue = None, hue_order=None, palette = None, kind="q
     elif kind == "probability":
         f = ppplot
     else:
-        msg = "kind must be either 'quantile' or 'probability'"
+        msg = "kind must be 'quantile'" # need to add probability plot functionality
         raise ValueError(msg)
 
     grid.map(qqplot, **kws)
