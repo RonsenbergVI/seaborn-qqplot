@@ -41,7 +41,7 @@ if "install" in sys.argv:
     if lib_paths[0].startswith("/usr/lib/"):
         lib_paths.append(get_python_lib(prefix="/usr/local"))
     for lib_path in lib_paths:
-        existing_path = os.path.abspath(os.path.join(lib_path, "sqp"))
+        existing_path = os.path.abspath(os.path.join(lib_path, "seaborn_qqplot"))
 
 def get_version_info():
 	"""
@@ -78,7 +78,7 @@ if not release:
        version = full_version
 	"""
 
-	filename = os.path.join(os.path.dirname(__file__), 'sqp/%s' % filename)
+	filename = os.path.join(os.path.dirname(__file__), 'seaborn_qqplot/%s' % filename)
 
 	VERSION, ISRELEASED = get_version_info()
 
