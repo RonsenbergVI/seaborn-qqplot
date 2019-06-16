@@ -42,7 +42,7 @@ can be done as follows:
   >>> qqplot(iris, x="petal_length", y="sepal_length")
 
 .. _is_sweaty:
-.. figure::  images/fig1.jpg
+.. figure::  images/fig1.png
    :align:   center
 
    Simple qqplot
