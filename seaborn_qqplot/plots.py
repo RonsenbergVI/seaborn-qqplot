@@ -32,7 +32,7 @@ from seaborn import PairGrid
 
 from scipy.stats import rv_continuous, t
 
-from seaborn_qqplot import probability_plot
+from seaborn_qqplot.utils import probability_plot
 
 from pandas import DataFrame, Series
 
