@@ -96,3 +96,5 @@ def probability_plot(x, y, **kwargs):
     # identity line in plot
     if identity:
         plt.plot(yr,yr, color='black', **plot_kws)
+
+    return plt.axes

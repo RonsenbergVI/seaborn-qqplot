@@ -125,15 +125,14 @@ def qqplot(data, x=None, y=None, hue = None, hue_order=None, palette = None, kin
     if hue is not None:
         labels = data[hue].unique()[::-1]
         n_colors = len(labels)
-        # By default use either the current color palette or HUSL
-        if palette is None:
-            current_palette = utils.get_color_cycle()
-            if n_colors > len(current_palette):
-                colors = color_palette("husl", n_colors)
-            else:
-                colors = color_palette(n_colors=n_colors)
-            colors = colors.as_hex()[:len(labels)]
-            handles = [patches.Patch(color=color, label=label) for color, label in zip(colors,labels)]
+        # 'seabornic' handling of palettes
+        current_palette = utils.get_color_cycle()
+        if n_colors > len(current_palette):
+            colors = color_palette("husl", n_colors)
+        else:
+            colors = color_palette(n_colors=n_colors)
+        colors = colors.as_hex()[:len(labels)]
+        handles = [patches.Patch(color=color, label=label) for color, label in zip(colors,labels)]
         legend(handles=handles)
 
     return grid
