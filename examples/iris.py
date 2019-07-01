@@ -39,7 +39,6 @@ sys.path.append(os.path.abspath('.'))
 from seaborn_qqplot import qqplot
 
 
-
 iris = load_dataset('iris')
 
 qqplot(iris, x="sepal_length", y = gamma, height = 5, aspect=3)
