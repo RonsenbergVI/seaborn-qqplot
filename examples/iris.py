@@ -28,12 +28,22 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+import os, sys
+
 from seaborn import load_dataset
+
+from scipy.stats import gamma
+
+sys.path.append(os.path.abspath('.'))
+
+from seaborn_qqplot import qqplot
+
+
 
 iris = load_dataset('iris')
 
-qq(iris, x="sepal_length", y = gamma, height = 5, aspect=3)
+qqplot(iris, x="sepal_length", y = gamma, height = 5, aspect=3)
 
-qq(iris, x="sepal_length", y = "petal_length", hue = "species", height = 5, aspect=3)
+qqplot(iris, x="sepal_length", y = "petal_length", hue = "species", height = 5, aspect=3)
 
-qq(iris, x="petal_length", y = gamma, hue = "species", height = 5, aspect=3)
+qqplot(iris, x="petal_length", y = gamma, hue = "species", height = 5, aspect=3)
