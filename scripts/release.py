@@ -80,11 +80,11 @@ def get_date(string_date):
     return datetime.strptime(string_date, '%B %d %Y')
 
 def print_error(message, *args):
-    print('Error: %s' % (message % args),file=sys.stderr)
+    print('Error: %s' % (message % args))
     sys.exit(1)
 
 def print_info(message, *args):
-	print(message % args,file=sys.stderr)
+	print(message % args)
 
 def get_version(version_string):
 	try:
