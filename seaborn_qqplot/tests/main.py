@@ -37,14 +37,12 @@ current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfra
 parent_dir = os.path.dirname(os.path.dirname(current_dir))
 sys.path.insert(0,parent_dir)
 
-import trendpy.tests.tests_factory
-import trendpy.tests.tests_globals
-import trendpy.tests.tests_mcmc
+import seaborn_qqplot.tests.tests_qq
+import seaborn_qqplot.tests.tests_utils
 
 suite = unittest.TestSuite()
 
-suite.addTest(unittest.makeSuite(trendpy.tests.tests_factory.TestFactory))
-suite.addTest(unittest.makeSuite(trendpy.tests.tests_globals.TestGlobals))
-suite.addTest(unittest.makeSuite(trendpy.tests.tests_mcmc.TestMCMC))
+suite.addTest(unittest.makeSuite(seaborn_qqplot.tests.tests_factory.tests_qq))
+suite.addTest(unittest.makeSuite(seaborn_qqplot.tests.tests_globals.tests_utils))
 
 unittest.TextTestRunner(verbosity=2).run(suite)
