@@ -19,7 +19,7 @@ seaborn-qqplot is build on top of the following libraries:
 * `SciPy` (http://www.scipy.org)
 * `Pandas` (http://pandas.pydata.org/)
 * `matplotlib` (http://http://matplotlib.org/)
-
+* `Seaborn` (http://http://matplotlib.org/)
 
 Issues
 ------

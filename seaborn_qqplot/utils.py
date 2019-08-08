@@ -30,7 +30,7 @@
 
 import matplotlib.pyplot as plt
 
-from scipy.stats import probplot, linregress
+from scipy.stats import probplot, linregress, t
 
 import numpy as np
 
