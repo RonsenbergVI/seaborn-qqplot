@@ -12,7 +12,7 @@ The library is available on pypi and to install the last available version, run 
 
 To test the installation:
 
-    >>> import seaborn-qqplot as sqp
+    >>> import seaborn_qqplot as sqp
     >>> sqp.__version__
 
 this should display the version installed on your system.
