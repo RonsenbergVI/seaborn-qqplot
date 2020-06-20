@@ -105,4 +105,4 @@ jobs:
           command: |
             . env/bin/activate
             python3 scripts/release.py
-            twine upload dist/*
+            twine upload dist/* -p ${PYPI_SECRECT} -u ${PYPI_USERNAME}
