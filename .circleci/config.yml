@@ -104,4 +104,5 @@ jobs:
           name: Upload to PyPi
           command: |
             . env/bin/activate
+            python3 scripts/release.py
             twine upload dist/*
