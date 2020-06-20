@@ -27,24 +27,3 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-import os
-import sys
-import inspect
-import unittest
-
-current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-parent_dir = os.path.dirname(os.path.dirname(current_dir))
-sys.path.insert(0,parent_dir)
-
-from seaborn_qqplot.utils import probability_plot
-from seaborn_qqplot import qqplot
-
-class TestUtils(unittest.TestCase):
-
-
-	def returnAxes(self):
-		SamplerFactory.removeAll()
-
-if __name__ == "__main__":
-	unittest.main()
