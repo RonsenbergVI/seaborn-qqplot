@@ -1,21 +1,108 @@
 version: 2.1
-
-orbs:
-  python: circleci/python@0.2.1
-
+workflows:
+  build_and_deploy:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /.*/
+      - test-python-install:
+          version: "3.6"
+          requires:
+            - build
+      - test-python-install:
+          name: "recent"
+          version: "3.7"
+          requires:
+            - build
+      - deploy:
+          requires:
+            - build
+            - recent
+          filters:
+            branches:
+              only: master
 jobs:
-  build-and-test:
-    executor: python/default
+  build:
+    docker:
+      - image: circleci/python:3.6
     steps:
       - checkout
-      - python/load-cache
-      - python/install-deps
-      - python/save-cache
       - run:
-          command: ./manage.py test
-          name: Test
-
-workflows:
-  main:
-    jobs:
-      - build-and-test
+          name: install python dependencies
+          command: |
+            python3 -m venv env
+            . env/bin/activate
+            make dev
+      - run:
+          name: run tests
+          command: |
+            . env/bin/activate
+            make tests
+      - store_artifacts:
+          path: htmlcov/
+  test-python-install:
+    parameters:
+      version:
+        type: string
+        default: latest
+    docker:
+      - image: circleci/python:<< parameters.version >>
+        environment:
+          - CC_TEST_REPORTER_ID: 9f8f8769e8994bf26437f1ddf3ad9e52dd7b255eef81023525f312a32d447af1
+    steps:
+      - checkout
+      - run:
+          name: install python dependencies
+          command: |
+            python3 -m venv env
+            . env/bin/activate
+            make dev
+      - run:
+          name: Setup Code Climate test-reporter
+          command: |
+            # download test reporter as a static binary
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+      - run:
+          command: |
+            ./cc-test-reporter before-build
+      - run:
+          name: run tests
+          command: |
+            . env/bin/activate
+            make report
+      - run:
+          name: Run coverage report
+          command: |
+            . env/bin/activate
+            echo $CC_TEST_REPORTER_ID
+            ./cc-test-reporter format-coverage -t coverage.py 
+            ./cc-test-reporter upload-coverage
+      - run:
+          command: |
+            ./cc-test-reporter after-build --exit-code $?
+      - store_artifacts:
+          path: htmlcov/
+  deploy:
+    docker:
+      - image: circleci/python:3.7
+    steps:
+      - checkout
+      - run:
+          name: Install Python Dependencies
+          command: |
+            python3 -m venv env
+            . env/bin/activate
+            make dev
+      - run:
+          name: Build Release package
+          command: |
+            pip3 install twine
+            make release
+      - run:
+          name: Upload to PyPi
+          command: |
+            . env/bin/activate
+            python3 scripts/release.py
+            twine upload dist/*

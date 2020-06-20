@@ -28,21 +28,46 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import os, sys
-
-from seaborn import load_dataset
-
-from scipy.stats import gamma
-
-sys.path.append(os.path.abspath('.'))
-
-from seaborn_qqplot import qqplot
+from pandas import DataFrame
 
 
-iris = load_dataset('iris')
+def _validate_data(data, dropna=True):
+    """
+    Only supports  pandas.DataFrame as input
+    """
+    if not isinstance(data, DataFrame):
+        raise TypeError(
+            "'data' must be pandas DataFrame object, not: {typefound}".format(
+                typefound=type(data)))
+    if dropna:
+        data.copy().dropna(axis=0, inplace=True)
+    return data.copy()
 
-qqplot(iris, x="sepal_length", y = gamma, height = 5, aspect=3)
 
-qqplot(iris, x="sepal_length", y = "petal_length", hue = "species", height = 5, aspect=3)
+def _validate_x_and_y(x, y):
+    """
+    Validate input data.
+    """
+    if x is None or y is None:
+        raise TypeError("x and y cannot be of NoneType")
+    return x, y
 
-qqplot(iris, x="petal_length", y = gamma, hue = "species", height = 5, aspect=3)
+
+def _validate_argument(arg, argname, valid_args):
+    """
+    Validate interpolation method for quantile function.
+    """
+    if arg not in valid_args:
+        msg = 'Invalid value for {} ({}). Must be on of {}.'
+        raise ValueError(msg.format(argname, arg, valid_args))
+    return arg
+
+
+def _validate_interpolation(arg):
+    """ Validate quantile interpolation method. """
+    return _validate_argument(arg, 'interpolation', ['linear', 'lower', 'higher', 'midpoint', 'nearest'])
+
+
+def _validate_kind(arg):
+    """ Validate kind of plot. """
+    return _validate_argument(arg, 'plot kind', ['q', 'p', 'qq', 'pp'])

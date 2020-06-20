@@ -28,7 +28,137 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-from seaborn_qqplot.plots import qqplot
+import matplotlib.patches as patches
+
+from matplotlib.pyplot import legend
+from pandas import DataFrame, Series
+from scipy.stats import rv_continuous, t
+from seaborn import PairGrid, color_palette, utils
+
+from seaborn_qqplot.plots import (
+    ProbabilityPlot,
+    QQPlot,
+    PPPlot,
+    QuantilePlot
+)
+from seaborn_qqplot.validation import (
+    _validate_interpolation,
+    _validate_kind,
+    _validate_data,
+    _validate_x_and_y
+)
+
 from seaborn_qqplot.version import version
 
 __version__ = version
+
+
+def pplot(data, 
+        x=None, 
+        y=None, 
+        hue=None, 
+        hue_order=None, 
+        palette=None, 
+        kind="q",
+        height=2.5, 
+        aspect=1, 
+        scale='linear',
+        interpolation='linear',
+        dropna=True,
+        display_kws=None,
+        plot_kws=None):
+    """Draw a probability plot of one variable against a probability distribution or
+    two variables.
+
+    Parameters
+    ----------
+    data : DataFrame
+        Tidy (long-form) dataframe where each column is a variable and
+        each row is an observation.
+    x : string, optional
+        name of column in ``data``.
+    y : string or `scipy.rv_continuous` instance, optional
+        name of column in ``data`` or a probability distribution
+    hue : string (variable name), optional
+        Variable in ``data`` to map plot aspects to different colors.
+    hue_order : list of strings
+        Order for the levels of the hue variable in the palette
+    palette : dict or seaborn color palette
+        Set of colors for mapping the ``hue`` variable. If a dict, keys
+        should be values  in the ``hue`` variable.
+    kind : { "q" | "p" | "pp" | "qq" }, optional
+        Kind of plot to draw.
+    height : numeric, optional
+        Size of the figure (it will be square).
+    aspect : numeric, optional
+        Ratio of joint axes height to marginal axes height.
+    dropna : bool, optional
+        If True, remove observations that are missing from ``x`` and ``y``.
+    {dispay, plot}_kws : dicts, optional
+        Additional keyword arguments for the plot components.
+    kwargs : key, value pairings
+        Additional keyword arguments are passed to the function used to
+        draw the plot on the joint Axes.
+
+    Returns
+    -------
+    grid : :class:`PairGrid`
+        :class:`PairGrid` object with the plot on it.
+    """
+
+    validated_data = _validate_data(data, dropna)
+
+    validated_x, validated_y = _validate_x_and_y(x,y)
+
+    x_vars = [validated_x]
+
+    if isinstance(validated_y, rv_continuous):
+        discrete_y = validated_y(
+            *validated_y.fit(validated_data[validated_x])
+            ).rvs(
+                len(validated_data[validated_x]
+                )
+            )
+        name = "{}_dist".format(validated_y.name)
+        validated_data[name] = Series(discrete_y, index=validated_data.index)
+        y_vars=[name]
+    else:
+        y_vars = [validated_y]
+
+    if not plot_kws:
+        plot_kws = {}
+    if not display_kws:
+        display_kws = {}
+
+    kws = {"plot_kws":plot_kws, "display_kws":display_kws, 'scale':scale, 'interpolation': interpolation}
+
+    grid = PairGrid(validated_data, x_vars=x_vars, y_vars=y_vars, height=height, aspect=aspect, hue=hue, palette=palette)
+
+    kind = _validate_kind(kind)
+
+    if kind == "qq":
+        plot_map = QQPlot(**kws)
+    elif kind == "pp":
+        plot_map = PPPlot(**kws)
+    elif kind == "p":
+        plot_map = QuantilePlot(**kws)
+    elif kind == "q":
+        plot_map = ProbabilityPlot(**kws)
+
+    grid.map(plot_map, **kws)
+
+    if hue:
+        labels = data[hue].unique()[::-1]
+        n_colors = len(labels)
+    
+        # 'seabornic' handling of palettes
+        current_palette = utils.get_color_cycle()
+        if n_colors > len(current_palette):
+            colors = color_palette("husl", n_colors)
+        else:
+            colors = color_palette(n_colors=n_colors)
+        colors = colors.as_hex()[:len(labels)]
+        handles = [patches.Patch(color=color, label=label) for color, label in zip(colors,labels)]
+        legend(handles=handles)
+
+    return grid
