@@ -1,3 +1,13 @@
+Version 0.4.0
+-------------
+
+Release day: June 20 2020
+
+- revamped API
+- cleaned code with better abstractions
+- quantile, probability, qq and pp plots support
+
+
 Version 0.3.2
 -------------
 
@@ -14,12 +24,14 @@ Release day: July 01 2019
 - fixed missing elements in legend
 - removed tests (seaborn is already proved with tests - some extra might be added in future releases)
 
+
 Version 0.3.0
 -------------
 
 Release day: July 01 2019
 
 - error 'probability_plot' import
+
 
 Version 0.2.5
 -------------
@@ -28,6 +40,7 @@ Release day: June 17 2019
 
 - missing import statement in __init__.py file
 
+
 Version 0.2.4
 -------------
 
@@ -35,12 +48,14 @@ Release day: June 17 2019
 
 - Fixed import bug.
 
+
 Version 0.2.2
 -------------
 
 Release day: June 17 2019
 
 - Bug in version import.
+
 
 Version 0.2.1
 -------------
