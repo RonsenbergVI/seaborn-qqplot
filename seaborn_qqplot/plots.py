@@ -28,111 +28,97 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-from seaborn import PairGrid, color_palette, utils
+import matplotlib.pyplot as plt
+import numpy as np
 
-from scipy.stats import rv_continuous, t
+from scipy.stats import rv_continuous, probplot, linregress, t
 
-from seaborn_qqplot.utils import probability_plot
+from seaborn_qqplot.transform import (
+    RegressionFit,
+    ConfidenceInterval,
+    Scale,
+    EmpiricalCDF,
+    EmpiricalQuantilesFunction,
+)
 
-from matplotlib.pyplot import legend
 
-import matplotlib.patches as patches
+class _Plot:
 
-from pandas import DataFrame, Series
+    def __init__(self, **kwargs):
 
-def qqplot(data, x=None, y=None, hue = None, hue_order=None, palette = None, kind="quantile",
-            height = 2.5, aspect = 1, dropna=True, display_kws=None, plot_kws=None):
-    """Draw a quantile-quantile plot of one variable against a probability distribution or
-    two variables.
+        display_kws = kwargs.pop("display_kws", {})
+        self.plot_kws = kwargs.pop("plot_kws", {})
 
-    Parameters
-    ----------
-    data : DataFrame
-        Tidy (long-form) dataframe where each column is a variable and
-        each row is an observation.
-    x : string, optional
-        name of variables in ``data``.
-    y : string or `scipy.rv_continuous` instance, optional
-        name of variables in ``data`` or a probability distribution
-    hue : string (variable name), optional
-        Variable in ``data`` to map plot aspects to different colors.
-    hue_order : list of strings
-        Order for the levels of the hue variable in the palette
-    palette : dict or seaborn color palette
-        Set of colors for mapping the ``hue`` variable. If a dict, keys
-        should be values  in the ``hue`` variable.
-    kind : { "quantile" | "probability"}, optional
-        Kind of plot to draw. probability plots are not yet available
-    height : numeric, optional
-        Size of the figure (it will be square).
-    aspect : numeric, optional
-        Ratio of joint axes height to marginal axes height.
-    dropna : bool, optional
-        If True, remove observations that are missing from ``x`` and ``y``.
-    {dispay, plot}_kws : dicts, optional
-        Additional keyword arguments for the plot components.
-    kwargs : key, value pairings
-        Additional keyword arguments are passed to the function used to
-        draw the plot on the joint Axes.
+        self.identity    = display_kws.get('identity', False)
+        self.fit         = display_kws.get('fit', False)
+        self.reg         = display_kws.get('reg', False)
+        self.ci          = display_kws.get('ci', 0.05)
+    
+    def _get_axis_data(self, x, y):
+        raise NotImplementedError("")        
 
-    Returns
-    -------
-    grid : :class:`PairGrid`
-        :class:`PairGrid` object with the plot on it.
-    """
-    # only support pandas DataFrame for data
-    if not isinstance(data, DataFrame):
-        raise TypeError(
-            "'data' must be pandas DataFrame object, not: {typefound}".format(
-                typefound=type(data)))
+    def __call__(self, x, y, **kwargs):
+        """ Draw a probability plot of data contained in x against data in y.
 
-    # x and y cannot be null values
-    if x is None or y is None:
-        raise TypeError("x and y cannot be of Nonetype")
+        Parameters
+        ----------
+        x : array_like
+            Data
+        y : array_like
+            Data
+        kwargs : key, value pairings
+            Additional keyword arguments are passed to the function.
+        """
 
-    x_vars = [x]
+        xr, yr = self._get_axis_data(x,y)
 
-    data_ = data.copy()
+        # display regression
+        if self.fit:
+            regression = RegressionFit()
+            xr, yr = regression(xr,yr)
+            plt.plot(xr, yr, **self.plot_kws)
 
-    if isinstance(y, rv_continuous):
-        y_ = y(*y.fit(data_[x])).rvs(len(data_[x]))
-        name = "{}_dist".format(y.name)
-        data_[name] = Series(y_, index=data_.index)
-        y_vars=[name]
-    else:
-        y_vars = [y]
+            if self.reg:
+                # confidence intervals
+                confidence_interval = ConfidenceInterval(ci=self.ci)
+                a,b,c= confidence_interval(x,y)
+                plt.gca().fill_between(a, b, c, color=kwargs['color'], alpha=0.1, **self.plot_kws)
 
-    if plot_kws is None:
-        plot_kws = {}
-    if display_kws is None:
-        display_kws = {}
 
-    kws = {"plot_kws":plot_kws, "display_kws":display_kws}
+        plt.scatter(xr, yr, color=kwargs['color'], **self.plot_kws)
 
-    grid = PairGrid(data_, x_vars=x_vars, y_vars=y_vars, height=height, aspect=aspect, hue=hue, palette=palette)
+        if self.identity:
+            plt.plot(yr,yr, color='black', **self.plot_kws)
 
-    if kind == "quantile":
-        f = qqplot
-    #elif kind == "probability":
-    #    f = ppplot
-    else:
-        msg = "kind must be 'quantile'" # need to add pp-plot functionality ('probability kind')
-        raise ValueError(msg)
+        return plt.axes
 
-    grid.map(probability_plot, **kws)
 
-    # Add a legend
-    if hue is not None:
-        labels = data[hue].unique()[::-1]
-        n_colors = len(labels)
-        # 'seabornic' handling of palettes
-        current_palette = utils.get_color_cycle()
-        if n_colors > len(current_palette):
-            colors = color_palette("husl", n_colors)
-        else:
-            colors = color_palette(n_colors=n_colors)
-        colors = colors.as_hex()[:len(labels)]
-        handles = [patches.Patch(color=color, label=label) for color, label in zip(colors,labels)]
-        legend(handles=handles)
 
-    return grid
+class ProbabilityPlot(_Plot):
+
+    def _get_axis_data(self, x, y):
+        _, xr = probplot(x, fit=False)
+        _, yr = probplot(y, fit=False)
+        return xr, yr
+
+class QuantilePlot(_Plot):
+
+    def _get_axis_data(self, x, y):
+        _, xr = probplot(x, fit=False)
+        _, yr = probplot(y, fit=False)
+        return xr, yr
+
+
+class QQPlot(_Plot):
+
+    def _get_axis_data(self, x, y):
+        _, xr = probplot(x, fit=False)
+        _, yr = probplot(y, fit=False)
+        return xr, yr
+
+class PPPlot(_Plot):
+
+    def _get_axis_data(self, x, y):
+        _, xr = probplot(x, fit=False)
+        _, yr = probplot(y, fit=False)
+        return xr, yr
