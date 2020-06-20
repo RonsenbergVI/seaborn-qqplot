@@ -15,5 +15,3 @@ __pycache__/*
 
 
 .ipynb_checkpoints
-
-tests/
