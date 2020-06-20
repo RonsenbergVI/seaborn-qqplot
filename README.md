@@ -2,7 +2,7 @@
 
 seaborn extension that adds qqplots and ppplots.
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/b59f5b869f680473473c/maintainability)](https://codeclimate.com/github/RonsenbergVI/seaborn-qqplot/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/b59f5b869f680473473c/test_coverage)](https://codeclimate.com/github/RonsenbergVI/seaborn-qqplot/test_coverage) [![Documentation Status](https://readthedocs.org/projects/seaborn-qqplot/badge/?version=latest)](https://seaborn-qqplot.readthedocs.io/en/latest/?badge=latest)
+[![Maintainability](https://api.codeclimate.com/v1/badges/b59f5b869f680473473c/maintainability)](https://codeclimate.com/github/RonsenbergVI/seaborn-qqplot/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/b59f5b869f680473473c/test_coverage)](https://codeclimate.com/github/RonsenbergVI/seaborn-qqplot/test_coverage)  [![CircleCI](https://circleci.com/gh/RonsenbergVI/seaborn-qqplot/tree/master.svg?style=svg)](https://app.circleci.com/pipelines/github/RonsenbergVI/seaborn-qqplot) [![Documentation Status](https://readthedocs.org/projects/seaborn-qqplot/badge/?version=latest)](https://seaborn-qqplot.readthedocs.io/en/latest/?badge=latest)
 
 
 
