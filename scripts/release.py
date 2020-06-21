@@ -114,4 +114,3 @@ if __name__ == '__main__':
 	version, day = get_changes()
 	major,minor,micro = get_version(version)
 	write_new_version(str(major),str(minor),str(micro))
-	build_for_release()
