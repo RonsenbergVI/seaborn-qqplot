@@ -39,8 +39,6 @@ def _validate_data(data, dropna=True):
         raise TypeError(
             "'data' must be pandas DataFrame object, not: {typefound}".format(
                 typefound=type(data)))
-    if dropna:
-        data.copy().dropna(axis=0, inplace=True)
     return data.copy()
 
 
