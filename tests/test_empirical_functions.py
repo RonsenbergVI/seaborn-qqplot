@@ -34,7 +34,12 @@ import numpy as np
 import numpy.testing as npt
 from numpy.testing import assert_raises
 
-from seaborn_qqplot.empirical_functions import StepFunction, monotone_fn_inverter
+from seaborn_qqplot.empirical_functions import (
+    StepFunction,
+    monotone_fn_inverter,
+    EmpiricalCDF,
+    EmpiricalQF
+)
 
 # from seaborn_qqplot.distributions.tests
 class TestDistributions(unittest.TestCase):
@@ -50,10 +55,12 @@ class TestDistributions(unittest.TestCase):
     def test_step_function_bad_shape(self):
         x = np.arange(20)
         y = np.arange(21)
-        assert_raises(ValueError, StepFunction, x, y)
+        with self.assertRaises(ValueError):
+            StepFunction(x,y)
         x = np.zeros((2, 2))
         y = np.zeros((2, 2))
-        assert_raises(ValueError, StepFunction, x, y)
+        with self.assertRaises(ValueError):
+            StepFunction(x,y)
 
 
     def test_step_function_value_side_right(self):
@@ -80,3 +87,15 @@ class TestDistributions(unittest.TestCase):
         f = monotone_fn_inverter(fn, x)
         npt.assert_array_equal(f.y, x[::-1])
         npt.assert_array_equal(f.x, y[::-1])
+
+
+    def test_ecdf(self):
+        x = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+        ecdf = EmpiricalCDF(x)
+        npt.assert_almost_equal(ecdf(x), [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.])
+
+
+    def test_eqf(self):
+        x = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+        eqf = EmpiricalQF(x)
+        npt.assert_almost_equal(eqf([0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.]), [6, 7, 8, 9, 10, 11, 12, 13, 14, 15])
