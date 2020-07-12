@@ -43,7 +43,7 @@ class TestEmptyPlot(unittest.TestCase):
 
 
     def setUp(self):        
-       self. empty_plot = _Plot()
+       self.empty_plot = _Plot()
 
     def test_empty_plot(self):
         self.assertEqual(self.empty_plot.plot_kws, {})
