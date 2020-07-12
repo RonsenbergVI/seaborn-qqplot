@@ -30,17 +30,10 @@
 
 import unittest
 
-from seaborn_qqplot.plots import (
-    _Plot,
-    PPPlot,
-    QQPlot,
-    ProbabilityPlot,
-    QuantilePlot
-)
+from seaborn_qqplot.plots import _Plot
 
 
 class TestEmptyPlot(unittest.TestCase):
-
 
     def setUp(self):        
        self.empty_plot = _Plot()
@@ -49,26 +42,9 @@ class TestEmptyPlot(unittest.TestCase):
         self.assertEqual(self.empty_plot.plot_kws, {})
 
 
-    def test_empy_variables(self):
+    def test_empty_variables(self):
         self.assertEqual(self.empty_plot.identity, False)
         self.assertEqual(self.empty_plot.fit, False)
         self.assertEqual(self.empty_plot.reg, False)
         self.assertEqual(self.empty_plot.ci, 0.05)
 
-
-class TestPPPlot(unittest.TestCase):
-
-
-    def setUp(self):        
-        
-       self. empty_plot = PPPlot()
-
-    def test_empty_plot(self):
-        self.assertEqual(self.empty_plot.plot_kws, {})
-
-
-    def test_empy_variables(self):
-        self.assertEqual(self.empty_plot.identity, False)
-        self.assertEqual(self.empty_plot.fit, False)
-        self.assertEqual(self.empty_plot.reg, False)
-        self.assertEqual(self.empty_plot.ci, 0.05)
