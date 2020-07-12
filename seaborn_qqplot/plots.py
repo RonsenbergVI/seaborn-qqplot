@@ -47,7 +47,6 @@ class _Plot:
 
     def __init__(self, **kwargs):
         display_kws = kwargs.pop("display_kws", {})
-        self.plot_kws = kwargs.pop("plot_kws", {})
 
         self.identity    = display_kws.get('identity', False)
         self.fit         = display_kws.get('fit', False)
@@ -81,9 +80,9 @@ class _Plot:
             # confidence intervals
             if self.reg:
                 confidence_interval = ConfidenceInterval(x, y, ci=self.ci)
-                plt.gca().fill_between(*confidence_interval(xr,yr), color=kwargs['color'], alpha=0.1)
+                plt.gca().fill_between(*confidence_interval(xr,yr), alpha=0.1)
 
-        plt.scatter(xr, yr, color=kwargs['color'])
+        plt.scatter(xr, yr)
 
         if self.identity:
             plt.plot(yr,yr, color='black')
