@@ -95,7 +95,8 @@ class ProbabilityPlot(_Plot):
 
     def _get_axis_data(self, x, y=None):
         ecdf = EmpiricalCDF(x)
-        yr = ecdf(x)
+        values = np.arange(np.min(x), np.max(x), 1/len(x))
+        yr = ecdf(values)
         return x, yr
 
 class QuantilePlot(_Plot):
