@@ -12,7 +12,11 @@ The documentation can be found [here](http://seaborn-qqplot.readthedocs.io/en/la
 
 ## Contributing
 
-Contribution will be welcomed once a first stable release is ready.
+I am still working on this section but contribution is welcome.
+
+#### Report Bugs
+
+Report bugs [here](https://github.com/ronsenbergVI/seaborn-qqplot/issues).
 
 
 ## Quickstart
@@ -48,5 +52,3 @@ that seaborn-qqplot will work with older versions.
 ## Support or Contact
 
 Having trouble with seaborn-qqplot? Check out the [documentation](http://seaborn-qqplot.readthedocs.io/en/latest/).
-
-Issues can be flagged [here](https://github.com/ronsenbergVI/seaborn-qqplot/issues).
