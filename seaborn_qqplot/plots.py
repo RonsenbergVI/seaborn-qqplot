@@ -30,22 +30,22 @@
 
 import matplotlib.pyplot as plt
 import numpy as np
-
 from scipy.stats import rv_continuous, probplot, linregress, t
 
-from seaborn_qqplot.transform import (
+from seaborn_qqplot.transforms import (
     RegressionFit,
     ConfidenceInterval,
-    Scale,
+    Scale
+)
+from seaborn_qqplot.empirical_functions import (
     EmpiricalCDF,
-    EmpiricalQuantilesFunction,
+    EmpiricalQF
 )
 
 
 class _Plot:
 
     def __init__(self, **kwargs):
-
         display_kws = kwargs.pop("display_kws", {})
         self.plot_kws = kwargs.pop("plot_kws", {})
 
@@ -55,7 +55,7 @@ class _Plot:
         self.ci          = display_kws.get('ci', 0.05)
     
     def _get_axis_data(self, x, y):
-        raise NotImplementedError("")        
+        raise NotImplementedError("Method should be overriden in child class.")        
 
     def __call__(self, x, y, **kwargs):
         """ Draw a probability plot of data contained in x against data in y.
@@ -74,51 +74,54 @@ class _Plot:
 
         # display regression
         if self.fit:
-            regression = RegressionFit()
-            xr, yr = regression(xr,yr)
-            plt.plot(xr, yr, **self.plot_kws)
+            regression = RegressionFit(xr,yr)
+            xr_, yr_ = regression(xr,yr)
+            plt.plot(xr_, yr_)
 
+            # confidence intervals
             if self.reg:
-                # confidence intervals
-                confidence_interval = ConfidenceInterval(ci=self.ci)
-                a,b,c= confidence_interval(x,y)
-                plt.gca().fill_between(a, b, c, color=kwargs['color'], alpha=0.1, **self.plot_kws)
+                confidence_interval = ConfidenceInterval(x, y, ci=self.ci)
+                plt.gca().fill_between(*confidence_interval(xr,yr), color=kwargs['color'], alpha=0.1)
 
-
-        plt.scatter(xr, yr, color=kwargs['color'], **self.plot_kws)
+        plt.scatter(xr, yr, color=kwargs['color'])
 
         if self.identity:
-            plt.plot(yr,yr, color='black', **self.plot_kws)
-
+            plt.plot(yr,yr, color='black')
         return plt.axes
 
 
 
 class ProbabilityPlot(_Plot):
 
-    def _get_axis_data(self, x, y):
-        _, xr = probplot(x, fit=False)
-        _, yr = probplot(y, fit=False)
-        return xr, yr
+    def _get_axis_data(self, x, y=None):
+        ecdf = EmpiricalCDF(x)
+        yr = ecdf(x)
+        return x, yr
 
 class QuantilePlot(_Plot):
 
-    def _get_axis_data(self, x, y):
-        _, xr = probplot(x, fit=False)
-        _, yr = probplot(y, fit=False)
-        return xr, yr
-
+    def _get_axis_data(self, x, y=None):
+        ecdf_x = EmpiricalQF(x)
+        quantiles = np.arange(0,1, 1/len(x))
+        yr = ecdf_x(quantiles)
+        return x, yr
 
 class QQPlot(_Plot):
 
-    def _get_axis_data(self, x, y):
-        _, xr = probplot(x, fit=False)
-        _, yr = probplot(y, fit=False)
+    def _get_axis_data(self, x, y=None):
+        ecdf_x = EmpiricalQF(x)
+        ecdf_y = EmpiricalQF(y)
+        quantiles = np.arange(0,1,1/len(x))
+        xr = ecdf_x(quantiles)
+        yr = ecdf_y(quantiles)
         return xr, yr
 
 class PPPlot(_Plot):
 
-    def _get_axis_data(self, x, y):
-        _, xr = probplot(x, fit=False)
-        _, yr = probplot(y, fit=False)
+    def _get_axis_data(self, x, y=None):
+        ecdf_x = EmpiricalCDF(x)
+        ecdf_y = EmpiricalCDF(y)
+        values = np.arange(np.min(np.hstack((x,y))),np.max(np.hstack((x,y))), 1/len(x))
+        xr = ecdf_x(values)
+        yr = ecdf_y(values)
         return xr, yr
