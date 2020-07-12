@@ -29,7 +29,6 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import matplotlib.patches as patches
-
 from matplotlib.pyplot import legend
 from pandas import DataFrame, Series
 from scipy.stats import rv_continuous, t
@@ -107,9 +106,7 @@ def pplot(data,
     """
 
     validated_data = _validate_data(data, dropna)
-
     validated_x, validated_y = _validate_x_and_y(x,y)
-
     x_vars = [validated_x]
 
     if isinstance(validated_y, rv_continuous):
@@ -137,13 +134,13 @@ def pplot(data,
     kind = _validate_kind(kind)
 
     if kind == "qq":
-        plot_map = QQPlot(**kws)
+        plot_map = QQPlot()
     elif kind == "pp":
-        plot_map = PPPlot(**kws)
+        plot_map = PPPlot()
     elif kind == "p":
-        plot_map = QuantilePlot(**kws)
+        plot_map = ProbabilityPlot()
     elif kind == "q":
-        plot_map = ProbabilityPlot(**kws)
+        plot_map = QuantilePlot()
 
     grid.map(plot_map, **kws)
 
