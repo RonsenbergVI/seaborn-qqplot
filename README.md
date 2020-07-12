@@ -1,6 +1,6 @@
 # seaborn-qqplot
 
-seaborn extension that adds qqplots and ppplots.
+Seabornic probability plots
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/b59f5b869f680473473c/maintainability)](https://codeclimate.com/github/RonsenbergVI/seaborn-qqplot/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/b59f5b869f680473473c/test_coverage)](https://codeclimate.com/github/RonsenbergVI/seaborn-qqplot/test_coverage)  [![CircleCI](https://circleci.com/gh/RonsenbergVI/seaborn-qqplot/tree/master.svg?style=svg)](https://app.circleci.com/pipelines/github/RonsenbergVI/seaborn-qqplot) [![Documentation Status](https://readthedocs.org/projects/seaborn-qqplot/badge/?version=latest)](https://seaborn-qqplot.readthedocs.io/en/latest/?badge=latest)
 
@@ -12,7 +12,11 @@ The documentation can be found [here](http://seaborn-qqplot.readthedocs.io/en/la
 
 ## Contributing
 
-Contribution will be welcomed once a first stable release is ready.
+I am still working on this section but contribution is welcome.
+
+#### Report Bugs
+
+Report bugs [here](https://github.com/ronsenbergVI/seaborn-qqplot/issues).
 
 
 ## Quickstart
@@ -20,7 +24,7 @@ Contribution will be welcomed once a first stable release is ready.
 The extension wants to be as similar as seaborn as possible.
 
 ```python
-import seaborn_qqplot as sqp
+from seaborn_qqplot import pplot
 ```
 
 The example provided with the package is the Iris dataset:
@@ -33,7 +37,7 @@ iris_data = sns.load_dataset('iris')
 
 ## Future Development
 
-I hope to add very soon probability-probability plots (pp-plots).
+The release is not stable yet. It still need some work, help is welcome.
 
 ## Requirements
 
@@ -48,5 +52,3 @@ that seaborn-qqplot will work with older versions.
 ## Support or Contact
 
 Having trouble with seaborn-qqplot? Check out the [documentation](http://seaborn-qqplot.readthedocs.io/en/latest/).
-
-Issues can be flagged [here](https://github.com/ronsenbergVI/seaborn-qqplot/issues).

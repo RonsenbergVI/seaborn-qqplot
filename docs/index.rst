@@ -171,3 +171,18 @@ seaborn-qqplot License
 ----------------------
 
 .. include:: ../LICENSE
+
+API References
+==============
+
+.. toctree::
+   :maxdepth: 2
+
+   api.rst
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`

@@ -41,26 +41,15 @@ class TransformMixin:
     def __call__(self, x, y=None, **kwargs):
         raise NotImplementedError("Transformer must be callable")
 
-
-class IdentityTransform(TransformMixin):
-    """
-    Identity transform.
-    """
-
-    def __call__(self, x, y=None, **kwargs):
-        if y:
-            return x, y
-        return x
-
-
 class RegressionFit(TransformMixin):
     """
     Returns regression line.
     """
+    def __init__(self, x, y):
+        self.slope, self.intercept, *_ = linregress(x,y)
 
     def __call__(self, x, y=None, **kwargs):
-        slope, intercept, *_ = linregress(x,y)
-        return x, intercept + slope * x
+        return x, self.intercept + self.slope * x
 
 
 class ConfidenceInterval(TransformMixin):
@@ -68,20 +57,22 @@ class ConfidenceInterval(TransformMixin):
     Returns confidence interval
     """
 
-    def __init__(self, ci=0.05):
+    def __init__(self, x, y, ci=0.05):
         self.p = 1 - ci/2
+        self.x = x
+        self.y = y
 
     def __call__(self, x, y=None, **kwargs):
-        _, y1   = RegressionFit()(x,y)
+        regression = RegressionFit(x, y)
+        _, y1   = regression(x, y)
         N       = x.size
         x2      = np.linspace(np.min(x), np.max(x), N)
-        _, y2   = RegressionFit()(x2,y)
+        _, y2   = regression(x2, y)
         df      = N - 2
         q_t     = t.ppf(self.p, df)
-        s_err   = np.sqrt(np.sum((y - y1)**2)/(df))
-        c       = q_t * s_err * np.sqrt(1/N + (x2-np.mean(x))**2/np.sum((x-np.mean(x))**2))
-        return x2, y2 + c, y2 - c
-
+        s_err   = np.sqrt(np.sum((self.y - y1)**2)/(df))
+        c       = q_t * s_err * np.sqrt(1/N + (x2-np.mean(self.x))**2/np.sum((self.x-np.mean(self.x))**2))
+        return x2, y2+c, y2-c
 
 class Scale(TransformMixin):
 
@@ -95,24 +86,3 @@ class Scale(TransformMixin):
         if self.scale:
             return np.apply_along_axis(self.scale, 0, x)
         return x
-
-
-class EmpiricalCDF(TransformMixin):
-
-    def __call__(self, x):
-        """ Compute ECDF """
-        x_sorted = np.sort(x)
-        n = x_sorted.size
-        y = np.arange(1, n+1) / n
-        return x_sorted, y
-
-
-class EmpiricalQuantilesFunction(TransformMixin):
-
-    def __init__(self, interpolation='linear'):
-        self.interpolation = interpolation
-
-    def __call__(self, x, y=None, **kwargs):
-        quantiles = np.linspace(start=0, stop=1, num=len(x))
-        xr = np.quantile(x, quantiles, interpolation=self.interpolation)
-        return xr, quantiles

@@ -29,7 +29,6 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import matplotlib.patches as patches
-
 from matplotlib.pyplot import legend
 from pandas import DataFrame, Series
 from scipy.stats import rv_continuous, t
@@ -65,8 +64,7 @@ def pplot(data,
         scale='linear',
         interpolation='linear',
         dropna=True,
-        display_kws=None,
-        plot_kws=None):
+        display_kws=None):
     """Draw a probability plot of one variable against a probability distribution or
     two variables.
 
@@ -107,9 +105,7 @@ def pplot(data,
     """
 
     validated_data = _validate_data(data, dropna)
-
     validated_x, validated_y = _validate_x_and_y(x,y)
-
     x_vars = [validated_x]
 
     if isinstance(validated_y, rv_continuous):
@@ -125,25 +121,23 @@ def pplot(data,
     else:
         y_vars = [validated_y]
 
-    if not plot_kws:
-        plot_kws = {}
     if not display_kws:
         display_kws = {}
 
-    kws = {"plot_kws":plot_kws, "display_kws":display_kws, 'scale':scale, 'interpolation': interpolation}
+    kws = {"display_kws":display_kws, 'scale':scale, 'interpolation': interpolation}
 
     grid = PairGrid(validated_data, x_vars=x_vars, y_vars=y_vars, height=height, aspect=aspect, hue=hue, palette=palette)
 
     kind = _validate_kind(kind)
 
     if kind == "qq":
-        plot_map = QQPlot(**kws)
+        plot_map = QQPlot()
     elif kind == "pp":
-        plot_map = PPPlot(**kws)
+        plot_map = PPPlot()
     elif kind == "p":
-        plot_map = QuantilePlot(**kws)
+        plot_map = ProbabilityPlot()
     elif kind == "q":
-        plot_map = ProbabilityPlot(**kws)
+        plot_map = QuantilePlot()
 
     grid.map(plot_map, **kws)
 

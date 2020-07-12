@@ -30,45 +30,98 @@
 
 import unittest
 
+import numpy as np
+import numpy.testing as npt
+from numpy.testing import assert_raises
+
 from seaborn_qqplot.plots import (
     _Plot,
     PPPlot,
-    QQPlot,
     ProbabilityPlot,
+    QQPlot,
     QuantilePlot
 )
 
 
 class TestEmptyPlot(unittest.TestCase):
 
-
     def setUp(self):        
-       self. empty_plot = _Plot()
+       self.empty_plot = _Plot()
 
-    def test_empty_plot(self):
-        self.assertEqual(self.empty_plot.plot_kws, {})
-
-
-    def test_empy_variables(self):
+    def test_empty_variables(self):
         self.assertEqual(self.empty_plot.identity, False)
         self.assertEqual(self.empty_plot.fit, False)
         self.assertEqual(self.empty_plot.reg, False)
         self.assertEqual(self.empty_plot.ci, 0.05)
 
 
-class TestPPPlot(unittest.TestCase):
-
+class TestPlot(unittest.TestCase):
 
     def setUp(self):        
-        
-       self. empty_plot = PPPlot()
+       self.plot = _Plot(**{
+           'display_kws':{
+            'identity':True,
+            'fit':True,
+            'reg':True,
+            'ci':0.01
+        }
+       })
 
-    def test_empty_plot(self):
-        self.assertEqual(self.empty_plot.plot_kws, {})
+    def test_variables(self):
+        self.assertEqual(self.plot.identity, True)
+        self.assertEqual(self.plot.fit, True)
+        self.assertEqual(self.plot.reg, True)
+        self.assertEqual(self.plot.ci, 0.01)
 
 
-    def test_empy_variables(self):
-        self.assertEqual(self.empty_plot.identity, False)
-        self.assertEqual(self.empty_plot.fit, False)
-        self.assertEqual(self.empty_plot.reg, False)
-        self.assertEqual(self.empty_plot.ci, 0.05)
+class TestPPPlots(unittest.TestCase):
+
+    def setUp(self):        
+        self.ppplot = PPPlot()
+
+
+    def test_range(self):
+        x = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+        self.ppplot(x,x)
+        xr, yr = self.ppplot._get_axis_data(x,x)
+
+        result = [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2,
+        0.2, 0.2, 0.2, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.4, 0.4, 0.4, 0.4, 0.4,
+        0.4, 0.4, 0.4, 0.4, 0.4, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.6, 0.6, 0.6,
+        0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.8,
+        0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9]
+
+        npt.assert_almost_equal(xr, result)
+        npt.assert_almost_equal(yr, result)
+
+
+
+class TestQQPlots(unittest.TestCase):
+
+    def setUp(self):        
+        self.qqplot = QQPlot()
+
+
+    def test_range(self):
+        x = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+        self.qqplot(x,x)
+        xr, yr = self.qqplot._get_axis_data(x,x)
+        data = [-np.inf,   6.,   7.,   8.,   9.,  10.,  11.,  12.,  13.,  14.]
+
+        npt.assert_almost_equal(xr, data)
+        npt.assert_almost_equal(yr, data)
+
+
+class TestQPlots(unittest.TestCase):
+
+    def setUp(self):        
+        self.qplot = QuantilePlot()
+
+
+    def test_range(self):
+        x = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+        self.qplot(x,x)
+        _, yr = self.qplot._get_axis_data(x,x)
+        data = [-np.inf,   6.,   7.,   8.,   9.,  10.,  11.,  12.,  13.,  14.]
+
+        npt.assert_almost_equal(yr, data)
