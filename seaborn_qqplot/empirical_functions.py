@@ -85,7 +85,6 @@ class StepFunction:
         return self.y[tind]
 
 
-
 class EmpiricalCDF(StepFunction):
     """
     Return the Empirical CDF of an array as a step function.
