@@ -68,7 +68,7 @@ class _Plot:
         kwargs : key, value pairings
             Additional keyword arguments are passed to the function.
         """
-
+        #TODO: function not tested - write test for this
         xr, yr = self._get_axis_data(x,y)
 
         # display regression
