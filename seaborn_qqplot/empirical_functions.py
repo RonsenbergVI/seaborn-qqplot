@@ -137,6 +137,7 @@ class EmpiricalQF(EmpiricalCDF):
 
     def __call__(self, x):
         """
-
+        The quantile function can be defined as the inverse cdf.
+        https://en.wikipedia.org/wiki/Quantile_function
         """
         return monotone_fn_inverter(super(EmpiricalCDF, self).__call__, self.x)(x)
