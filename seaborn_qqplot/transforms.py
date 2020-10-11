@@ -70,8 +70,8 @@ class ConfidenceInterval(TransformMixin):
         _, y2   = regression(x2, y)
         df      = N - 2
         q_t     = t.ppf(self.p, df)
-        s_err   = np.sqrt(np.sum((self.y - y1)**2)/(df))
-        c       = q_t * s_err * np.sqrt(1/N + (x2-np.mean(self.x))**2/np.sum((self.x-np.mean(self.x))**2))
+        s_err   = self.y.std(ddof=2)
+        c       = q_t * s_err * np.sqrt(1/N) + (x2-np.mean(self.x))**2/np.sum((self.x-np.mean(self.x))**2
         return x2, y2+c, y2-c
 
 class Scale(TransformMixin):
