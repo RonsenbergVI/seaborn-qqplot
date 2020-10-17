@@ -94,7 +94,7 @@ class ProbabilityPlot(_Plot):
 
     def _get_axis_data(self, x, y=None):
         ecdf = EmpiricalCDF(x)
-        values = np.arange(np.min(x), np.max(x), 1/len(x))
+        values = np.arange(np.min(x), np.max(x), (np.max(x)-np.min(x))/len(x))
         yr = ecdf(values)
         return x, yr
 
