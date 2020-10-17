@@ -106,7 +106,7 @@ class TestQQPlots(unittest.TestCase):
         x = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
         self.qqplot(x,x)
         xr, yr = self.qqplot._get_axis_data(x,x)
-        data = [ 6. ,  6.9,  7.8,  8.7,  9.6, 10.5, 11.4, 12.3, 13.2, 14.1]
+        data = [ 6.,  7.,  8.,  9., 10., 11., 12., 13., 14., 15.]
 
         npt.assert_almost_equal(xr, data)
         npt.assert_almost_equal(yr, data)
@@ -122,6 +122,6 @@ class TestQPlots(unittest.TestCase):
         x = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
         self.qplot(x,x)
         _, yr = self.qplot._get_axis_data(x,x)
-        data = [ 6. ,  6.9,  7.8,  8.7,  9.6, 10.5, 11.4, 12.3, 13.2, 14.1]
+        data = [ 6.,  7.,  8.,  9., 10., 11., 12., 13., 14., 15.]
 
         npt.assert_almost_equal(yr, data)
