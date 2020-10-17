@@ -37,9 +37,9 @@ A simple qq-plot comparing the iris dataset petal length and sepal length distri
 can be done as follows:
 
   >>> import seaborn as sns
-  >>> from seaborn_qqplot import qqplot
+  >>> from seaborn_qqplot import pplot
   >>> iris = sns.load_dataset('iris')
-  >>> qqplot(iris, x="petal_length", y="sepal_length")
+  >>> pplot(iris, x="petal_length", y="sepal_length", kind='qq')
 
 .. figure::  images/fig1.png
    :align:   center
@@ -51,7 +51,7 @@ can be done as follows:
 The sizes can be changed with the height and aspect parameters. The height can be fixed directly
 and the aspect will set the width in relation to the height:
 
-  >>> qqplot(iris, x="sepal_length", y="petal_length", height = 4, aspect = 1.5)
+  >>> pplot(iris, x="sepal_length", y="petal_length", kind='qq', height=4, aspect=2)
 
 .. figure::  images/fig2.png
    :align:   center
@@ -65,7 +65,7 @@ While performing exploratory data analysis (seaborn had become quite popular to 
 taks), it is very informative to display the change in the underlying distribution of a variable
 for a given label:
 
-  >>> qqplot(iris, x="sepal_length", y="petal_length", hue = "species", height = 4, aspect = 1.5)
+  >>> pplot(iris, x="sepal_length", y="petal_length", hue="species", kind='qq', height=4, aspect=2)
 
 .. figure::  images/fig3.png
    :align:   center
@@ -74,11 +74,11 @@ for a given label:
 
 
 
-seaborn qqplot also allows to compare a variable to a known probability distribution. The extension
+seaborn-qqplot also allows to compare a variable to a known probability distribution. The extension
 only supports `scipy.rv_continuous` random variable models:
 
   >>> from scipy.stats import gamma
-  >>> qqplot(iris, x="sepal_length", y=gamma, hue = "species", height = 4, aspect = 1.5)
+  >>> pplot(iris, x="sepal_length", y=gamma, hue="species", kind='qq', height=4, aspect=2)
 
   .. figure::  images/fig4.png
      :align:   center
@@ -90,7 +90,7 @@ only supports `scipy.rv_continuous` random variable models:
 A qqplot with 2 samples from the same distribution will display points close to the x=y line
 thus it is possible to add the identity line as a graphical diagnostic:
 
-  >>> qqplot(iris, x="sepal_length", y=gamma, hue = "species", height = 4, aspect = 1.5, display_kws={"identity":True})
+  >>> pplot(iris, x="sepal_length", y=gamma, hue="species", kind='qq', height=4, aspect=2, display_kws={"identity":True})
 
   .. figure::  images/fig5.png
      :align:   center
@@ -102,7 +102,7 @@ thus it is possible to add the identity line as a graphical diagnostic:
 
 Another graphical aid is to add regression lines for the qqplot points:
 
->>> qqplot(iris, x="sepal_length", y="petal_length", hue = "species", height = 5, aspect = 1.6, display_kws={"identity":False,"fit":True})
+>>> pplot(iris, x="sepal_length", y="petal_length", hue="species", kind='qq', height=4, aspect=2, display_kws={"identity":False, "fit":True})
 
 .. figure::  images/fig6.png
    :align:   center
@@ -111,12 +111,11 @@ Another graphical aid is to add regression lines for the qqplot points:
 
 
 
-
 Finally, confidence intervals can be added for the linear regressions, we can precise the degree of
 confidence of the interval with the parameter `ci` a number in the interval [0,1] and the confidence
 intervals with degree of confidence 1 - ci/2 will be displayed:
 
->>> qqplot(iris, x="sepal_length", y=gamma, hue = "species", height = 4, aspect = 1.5, display_kws={"identity":False,"fit":True,"reg":True,"ci":0.025})
+>>> pplot(iris, x="sepal_length", y=gamma, hue="species", kind='qq', height=4, aspect=2, display_kws={"identity":False, "fit":True, "reg":True, "ci":0.025})
 
 .. figure::  images/fig7.png
    :align:   center
