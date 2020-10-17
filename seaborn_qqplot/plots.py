@@ -52,6 +52,7 @@ class _Plot:
         self.fit         = display_kws.get('fit', False)
         self.reg         = display_kws.get('reg', False)
         self.ci          = display_kws.get('ci', 0.05)
+        self.plot_kws    = kwargs.pop("plot_kws", {})
     
     def _get_axis_data(self, x, y):
         raise NotImplementedError("Method should be overriden in child class.")        
@@ -71,24 +72,63 @@ class _Plot:
         #TODO: function not tested - write test for this
         xr, yr = self._get_axis_data(x,y)
 
+        path = plt.scatter(xr, yr, **self.plot_kws)
+
         # display regression
         if self.fit:
             regression = RegressionFit(xr,yr)
             xr_, yr_ = regression(xr,yr)
-            plt.plot(xr_, yr_)
+            plt.plot(xr_, yr_, color=path.get_facecolors()[0], **self.plot_kws)
 
             # confidence intervals
             if self.reg:
                 confidence_interval = ConfidenceInterval(x, y, ci=self.ci)
-                plt.gca().fill_between(*confidence_interval(xr,yr), alpha=0.1)
+                x2, y2_plus, y2_minus = confidence_interval(xr,yr)
+                plt.gca().fill_between(x2, y2_plus, y2_minus, color=path.get_facecolors()[0], alpha=0.1, **self.plot_kws)
 
-        plt.scatter(xr, yr)
 
         if self.identity:
             plt.plot(yr,yr, color='black')
         return plt.axes
 
 
+
+class ProbabilityPlot(_Plot):
+
+    def _get_axis_data(self, x, y=None):
+        ecdf = EmpiricalCDF(x)
+        values = np.arange(np.min(x), np.max(x), (np.max(x)-np.min(x))/len(x))
+        yr = ecdf(values)
+        return x, yr
+
+class QuantilePlot(_Plot):
+
+    def _get_axis_data(self, x, y=None):
+        ecdf_x = EmpiricalQF(x)
+        quantiles = np.arange(0,1, 1/len(x))
+        yr = ecdf_x(quantiles)
+        return x, yr
+
+class QQPlot(_Plot):
+
+    def _get_axis_data(self, x, y=None):
+        ecdf_x = EmpiricalQF(x)
+        ecdf_y = EmpiricalQF(y)
+        quantiles_x = np.arange(0,1, 1/len(x))
+        quantiles_y = np.arange(0,1, 1/len(x))
+        xr = ecdf_x(quantiles_x)
+        yr = ecdf_y(quantiles_y)
+        return xr, yr
+
+class PPPlot(_Plot):
+
+    def _get_axis_data(self, x, y=None):
+        ecdf_x = EmpiricalCDF(x)
+        ecdf_y = EmpiricalCDF(y)
+        values = np.arange(np.min(np.hstack((x,y))), np.max(np.hstack((x,y))), (np.max(np.hstack((x,y)))-np.min(np.hstack((x,y)))+1)/len(x))
+        xr = ecdf_x(values)
+        yr = ecdf_y(values)
+        return xr, yr
 
 class ProbabilityPlot(_Plot):
 
@@ -121,7 +161,7 @@ class PPPlot(_Plot):
     def _get_axis_data(self, x, y=None):
         ecdf_x = EmpiricalCDF(x)
         ecdf_y = EmpiricalCDF(y)
-        values = np.arange(np.min(np.hstack((x,y))),np.max(np.hstack((x,y))), 1/len(x))
+        values = np.arange(np.min(np.hstack((x,y))),np.max(np.hstack((x,y))+1), 1/len(x))
         xr = ecdf_x(values)
         yr = ecdf_y(values)
         return xr, yr

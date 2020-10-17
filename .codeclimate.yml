@@ -3,7 +3,7 @@ version: "2"         # required to adjust maintainability checks
 checks:
   argument-count:
     config:
-      threshold: 6
+      threshold: 15
   complex-logic:
     config:
       threshold: 4

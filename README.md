@@ -48,6 +48,7 @@ that seaborn-qqplot will work with older versions.
 * NumPy (1.16+)
 * SciPy (1.2+)
 * Pandas (0.23+)
+* Seaborn (0.9+)
 
 The library was not tested on python 3.9 yet, so there is not guarantee that it will be possible to use with this python version.
 
