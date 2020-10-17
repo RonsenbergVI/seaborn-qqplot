@@ -9,7 +9,6 @@ workflows:
           version: "3.8"
           name: "build python 3.8"
       - build:
-          version: "3.9"
           name: "build python 3.9"
       - test-python-install:
           name: "python 3.7"
@@ -23,7 +22,6 @@ workflows:
             - "build python 3.8"
       - test-python-install:
           name: "python 3.9"
-          version: "3.9"
           requires:
             - "build python 3.9"
       - deploy:
@@ -36,6 +34,10 @@ workflows:
               only: master
 jobs:
   build:
+    parameters:
+      version:
+        type: string
+        default: "3.9"
     docker:
       - image: circleci/python:<< parameters.version >>
     steps:
@@ -57,7 +59,7 @@ jobs:
     parameters:
       version:
         type: string
-        default: latest
+        default: "3.9"
     docker:
       - image: circleci/python:<< parameters.version >>
         environment:
