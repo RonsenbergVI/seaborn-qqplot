@@ -125,7 +125,7 @@ class PPPlot(_Plot):
     def _get_axis_data(self, x, y=None):
         ecdf_x = EmpiricalCDF(x)
         ecdf_y = EmpiricalCDF(y)
-        values = np.arange(np.min(np.hstack((x,y))), np.max(np.hstack((x,y))), (np.max(np.hstack((x,y)))-np.min(np.hstack((x,y))))/len(x))
+        values = np.arange(np.min(np.hstack((x,y))), np.max(np.hstack((x,y))), (np.max(np.hstack((x,y)))-np.min(np.hstack((x,y)))+1)/len(x))
         xr = ecdf_x(values)
         yr = ecdf_y(values)
         return xr, yr
@@ -161,7 +161,7 @@ class PPPlot(_Plot):
     def _get_axis_data(self, x, y=None):
         ecdf_x = EmpiricalCDF(x)
         ecdf_y = EmpiricalCDF(y)
-        values = np.arange(np.min(np.hstack((x,y))),np.max(np.hstack((x,y))), 1/len(x))
+        values = np.arange(np.min(np.hstack((x,y))),np.max(np.hstack((x,y))+1), 1/len(x))
         xr = ecdf_x(values)
         yr = ecdf_y(values)
         return xr, yr
