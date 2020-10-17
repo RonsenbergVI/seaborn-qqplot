@@ -103,7 +103,7 @@ class EmpiricalCDF(StepFunction):
         x = np.array(x, copy=True)
         x.sort()
         nobs = len(x)
-        y = np.linspace(1./nobs,1,nobs)
+        y = np.linspace(0,1,nobs)
         super(EmpiricalCDF, self).__init__(x, y, side=side, sorted=True)
         # TODO: make `step` an arg and have a linear interpolation option?
         # This is the path with `step` is True
