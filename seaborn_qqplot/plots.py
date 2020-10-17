@@ -97,7 +97,7 @@ class ProbabilityPlot(_Plot):
 
     def _get_axis_data(self, x, y=None):
         ecdf = EmpiricalCDF(x)
-        values = np.linspace(np.min(x), np.max(x), len(x))
+        values = np.arange(np.min(x), np.max(x), (np.max(x)-np.min(x))/len(x))
         yr = ecdf(values)
         return x, yr
 
@@ -105,7 +105,7 @@ class QuantilePlot(_Plot):
 
     def _get_axis_data(self, x, y=None):
         ecdf_x = EmpiricalQF(x)
-        quantiles = np.linspace(0,1, len(x))
+        quantiles = np.arange(0,1, 1/len(x))
         yr = ecdf_x(quantiles)
         return x, yr
 
@@ -114,8 +114,8 @@ class QQPlot(_Plot):
     def _get_axis_data(self, x, y=None):
         ecdf_x = EmpiricalQF(x)
         ecdf_y = EmpiricalQF(y)
-        quantiles_x = np.linspace(0, 1, len(x))
-        quantiles_y = np.linspace(0, 1, len(y))
+        quantiles_x = np.arange(0,1, 1/len(x))
+        quantiles_y = np.arange(0,1, 1/len(x))
         xr = ecdf_x(quantiles_x)
         yr = ecdf_y(quantiles_y)
         return xr, yr
@@ -125,7 +125,43 @@ class PPPlot(_Plot):
     def _get_axis_data(self, x, y=None):
         ecdf_x = EmpiricalCDF(x)
         ecdf_y = EmpiricalCDF(y)
-        values = np.linspace(np.min(np.hstack((x,y))),np.max(np.hstack((x,y))), len(x))
+        values = np.arange(np.min(np.hstack((x,y))), np.max(np.hstack((x,y))), (np.max(np.hstack((x,y)))-np.min(np.hstack((x,y))))/len(x))
+        xr = ecdf_x(values)
+        yr = ecdf_y(values)
+        return xr, yr
+
+class ProbabilityPlot(_Plot):
+
+    def _get_axis_data(self, x, y=None):
+        ecdf = EmpiricalCDF(x)
+        values = np.arange(np.min(x), np.max(x), 1/len(x))
+        yr = ecdf(values)
+        return x, yr
+
+class QuantilePlot(_Plot):
+
+    def _get_axis_data(self, x, y=None):
+        ecdf_x = EmpiricalQF(x)
+        quantiles = np.arange(0,1, 1/len(x))
+        yr = ecdf_x(quantiles)
+        return x, yr
+
+class QQPlot(_Plot):
+
+    def _get_axis_data(self, x, y=None):
+        ecdf_x = EmpiricalQF(x)
+        ecdf_y = EmpiricalQF(y)
+        quantiles = np.arange(0,1,1/len(x))
+        xr = ecdf_x(quantiles)
+        yr = ecdf_y(quantiles)
+        return xr, yr
+
+class PPPlot(_Plot):
+
+    def _get_axis_data(self, x, y=None):
+        ecdf_x = EmpiricalCDF(x)
+        ecdf_y = EmpiricalCDF(y)
+        values = np.arange(np.min(np.hstack((x,y))),np.max(np.hstack((x,y))), 1/len(x))
         xr = ecdf_x(values)
         yr = ecdf_y(values)
         return xr, yr
