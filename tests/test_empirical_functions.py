@@ -92,10 +92,10 @@ class TestDistributions(unittest.TestCase):
     def test_ecdf(self):
         x = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
         ecdf = EmpiricalCDF(x)
-        npt.assert_almost_equal(ecdf(x), [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.])
+        npt.assert_almost_equal(ecdf(x), [0.0, 0.1111111, 0.2222222, 0.3333333, 0.4444444, 0.5555556, 0.6666667, 0.7777778, 0.8888889, 1.])
 
 
     def test_eqf(self):
         x = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
         eqf = EmpiricalQF(x)
-        npt.assert_almost_equal(eqf([0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.]), [6, 7, 8, 9, 10, 11, 12, 13, 14, 15])
+        npt.assert_almost_equal(eqf([0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.]), [6.9,  7.8,  8.7,  9.6, 10.5, 11.4, 12.3, 13.2, 14.1, 15. ])
