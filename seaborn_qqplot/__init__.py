@@ -64,7 +64,8 @@ def pplot(data,
         scale='linear',
         interpolation='linear',
         dropna=True,
-        display_kws=None):
+        plot_kws={},
+        display_kws={}):
     """Draw a probability plot of one variable against a probability distribution or
     two variables.
 
@@ -124,7 +125,7 @@ def pplot(data,
     if display_kws is None:
         display_kws = {}
 
-    kws = {"display_kws":display_kws, 'scale':scale, 'interpolation': interpolation}
+    kws = {"display_kws":display_kws, "plot_kws":plot_kws, 'interpolation': interpolation}
 
     grid = PairGrid(validated_data, x_vars=x_vars, y_vars=y_vars, height=height, aspect=aspect, hue=hue, palette=palette)
 
