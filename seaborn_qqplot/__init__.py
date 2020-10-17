@@ -121,7 +121,7 @@ def pplot(data,
     else:
         y_vars = [validated_y]
 
-    if not display_kws:
+    if display_kws is None:
         display_kws = {}
 
     kws = {"display_kws":display_kws, 'scale':scale, 'interpolation': interpolation}
@@ -131,15 +131,15 @@ def pplot(data,
     kind = _validate_kind(kind)
 
     if kind == "qq":
-        plot_map = QQPlot()
+        plot_map = QQPlot(**kws)
     elif kind == "pp":
-        plot_map = PPPlot()
+        plot_map = PPPlot(**kws)
     elif kind == "p":
-        plot_map = ProbabilityPlot()
+        plot_map = ProbabilityPlot(**kws)
     elif kind == "q":
-        plot_map = QuantilePlot()
+        plot_map = QuantilePlot(**kws)
 
-    grid.map(plot_map, **kws)
+    grid.map(plot_map)
 
     if hue:
         labels = data[hue].unique()[::-1]
