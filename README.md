@@ -44,10 +44,12 @@ The release is not stable yet. It still need some work, help is welcome.
 These requirements reflect the testing environment.  It is possible
 that seaborn-qqplot will work with older versions.
 
-* Python (3+)
+* Python (3.6,3.7,3.8)
 * NumPy (1.16+)
 * SciPy (1.2+)
 * Pandas (0.23+)
+
+The library was not tested on python 3.9 yet, so there is not guarantee that it will be possible to use with this python version.
 
 ## Support or Contact
 

@@ -3,29 +3,43 @@ workflows:
   build_and_deploy:
     jobs:
       - build:
-          filters:
-            tags:
-              only: /.*/
+          version: "3.6"
+          name: "build python 3.6"
+      - build:
+          version: "3.7"
+          name: "build python 3.7"
+      - build:
+          name: "build python 3.8"
       - test-python-install:
+          name: "test python 3.6"
           version: "3.6"
           requires:
-            - build
+            - "build python 3.6"
       - test-python-install:
-          name: "recent"
+          name: "test python 3.7"
           version: "3.7"
           requires:
-            - build
+            - "build python 3.7"
+      - test-python-install:
+          name: "test python 3.8"
+          requires:
+            - "build python 3.8"
       - deploy:
           requires:
-            - build
-            - recent
+            - "test python 3.6"
+            - "test python 3.7"
+            - "test python 3.8"
           filters:
             branches:
               only: master
 jobs:
   build:
+    parameters:
+      version:
+        type: string
+        default: "3.8"
     docker:
-      - image: circleci/python:3.6
+      - image: circleci/python:<< parameters.version >>
     steps:
       - checkout
       - run:
@@ -45,7 +59,7 @@ jobs:
     parameters:
       version:
         type: string
-        default: latest
+        default: "3.8"
     docker:
       - image: circleci/python:<< parameters.version >>
         environment:
